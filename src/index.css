@@ -5,11 +5,13 @@ body {
 }
 table td {
   border: 1px solid #999;
-  width: 80px;
-  height: 40px;
-  margin: 10px;
+  min-width: 80px;
+  height: 80px;
+  margin: 0px;
 }
-
+table {
+  border-collapse: collapse;
+}
 td.selected {
-  background-color: green;
+  background-color: lightcyan;
 }

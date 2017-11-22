@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import Blocks from './components/Blocks'
+
 class App extends Component {
+
   render() {
+
     return (
       <div className="App">
         <header className="App-header">
@@ -13,58 +17,7 @@ class App extends Component {
         <p className="App-intro">
           Click and drag mouse or use shift key to select cells.
         </p>
-        <table id="table">
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
+        <Blocks />
       </div>
     );
   }
