@@ -1,11 +1,23 @@
-import {combineReducers} from 'redux'
 import * as types from '../actions/types'
 
 function events ( state =initialState,action) {
   switch(action.type){
     case types.LOAD_EVENTS_SUCCESS:
       return{
-        ...state
+        ...state,
+        events: action.events
+      }
+    default:
+      return state
+  }
+}
+
+function blocks (state=initialState, action) {
+  switch(action.type){
+    case types.LOAD_BLOCKS_SUCCESS:
+      return{
+        ...state,
+        blocks: action.blocks
       }
     default:
       return state
@@ -13,7 +25,10 @@ function events ( state =initialState,action) {
 }
 
 const initialState={
-  events:{}
+  events:{},
+  blocks:[]
 }
 
-export default (events)
+
+
+export default {events,blocks}

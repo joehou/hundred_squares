@@ -1,5 +1,7 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
+import {Route, Switch,Link,withRouter} from 'react-router-dom'
+
 import * as actions from '../actions'
 
 
@@ -25,46 +27,49 @@ class Blocks extends Component {
     })
   }
 
+  adddOnClickEvents(){
+    var blocks=document.querySelectorAll("td")
+    blocks.forEach( block =>{
+      block.addEventListener("mousedown",event => {
+        let block=event.target
+        let coords=this.getCoordinates(block)
+        this.selectTo(block)
+      })
+    })
+  }
+
   componentDidMount() {
     this.props.loadEvents()
-    let isMouseDown = false;
-    let startRowIndex= null;
-    let startCellIndex = null;
-    // document.querySelectorAll("td").forEach( square => {square.addEventListener("mousedown",event=> console.log(event) )})
-    var blocks=document.querySelectorAll("td")
-    // blocks.forEach( block =>{
-    //   block.addEventListener("mousedown",event => {
-    //     let block=event.target
-    //     isMouseDown=true
-    //     let coords=this.getCoordinates(block)
-    //     this.selectTo(block)
-    //   })
-    // })
-
+    this.props.loadBlocks()
   }
 
   render() {
     const rows= Array.from(new Array(10), (x,i) => i)
     const columns = Array.from(new Array(10), (x,i) => i)
-
+    console.log(this.props.blocksAll["0"])
     return(
-      <table id="table">
-        <tbody>
-        {rows.map((row,r)=>
-          <tr key={r}>
-            {columns.map( (column,c)=>
-              <td id= {r*10+c} key={c}></td>
-            )}
-          </tr>
-        )}
-        </tbody>
-      </table>
+      <div>
+        <table id="table">
+          <tbody>
+          {rows.map((row,r)=>
+            <tr key={r}>
+              {columns.map( (column,c)=>
+                <td id= {r*10+c} key={c}></td>
+              )}
+            </tr>
+          )}
+          </tbody>
+        </table>
+      </div>
     )
   }
 }
 
-function mapStateToProps({events}){
-  events: events
+function mapStateToProps({events,blocks}){
+  return {
+    events: events,
+    blocksAll: blocks.blocks
+  }
 }
 
-export default connect(mapStateToProps,actions)(Blocks)
+export default withRouter(connect(mapStateToProps,actions)(Blocks))
