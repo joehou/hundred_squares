@@ -14,6 +14,7 @@ table td {
 table {
   border-collapse: collapse;
   background-color:white;
+  margin-left:100px;
 }
 td.selected {
   background-color: lightcyan;
@@ -25,4 +26,32 @@ td.selected {
   font-weight:bold;
   text-align:center;
   line-height:80px
+}
+
+.modal {
+  position: absolute;
+  top: 300px;
+  left: 1000px;
+  right: 200px;
+  bottom: 40px;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
+  width: 500px;
+  height: 500px;
+}
+
+.overlay {
+  opacity: 0.3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
 }

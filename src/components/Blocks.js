@@ -1,32 +1,17 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {Route, Switch,Link,withRouter} from 'react-router-dom'
+import Modal from 'react-modal'
 
 import * as actions from '../actions'
 
 
 
 class Blocks extends Component {
-
-
-  getInitials(string){
-    var names = string.split(' '),
-    initials = names[0].substring(0, 1).toUpperCase();
-    if (names.length > 1) {
-      initials += names[names.length - 1].substring(0, 1).toUpperCase();
-    }
-    return initials;
-  };
-
-  selectTo(selectedBlocks){
-    var blocks=this.props.blocksAll
-    blocks.forEach( block => {
-      if ((block.row < selectedBlocks.row)||
-        (block.col<selectedBlocks.col+1 && block.row== selectedBlocks.row)
-      ){
-        block.className="selected"
-      }
-    })
+  state = {
+    eventModalOpen: false,
+    startHighlightedCell: null,
+    endHighlightedCell: null
   }
 
   addOnClickEvents(){
@@ -41,11 +26,45 @@ class Blocks extends Component {
     })
   }
 
+
+  getInitials(string){
+    var names = string.split(' '),
+      initials = names[0].substring(0, 1).toUpperCase();
+    if (names.length > 1) {
+      initials += names[names.length - 1].substring(0, 1).toUpperCase();
+    }
+    return initials;
+  };
+
+  selectTo(selectedBlocks){
+    console.log(selectedBlocks)
+    var blocks=this.props.blocksAll
+    var blocks=document.querySelectorAll("td")
+    blocks.forEach( blocks => {
+      let coords=this.getCoordinates(blocks)
+      if ((coords.rowIndex < selectedBlocks.parentElement.rowIndex)||
+        (coords.cellIndex<selectedBlocks.cellIndex+1 && coords.rowIndex == selectedBlocks.parentElement.rowIndex )
+      ){
+        blocks.className="selected"
+      }
+    })
+  }
+
+  blockClicked(selectedBlock){
+    this.setState( _=> ({
+        startHighlightedCell:this.props.events.reduce(function(prev, curr) {
+          return prev.endBlock > curr.endBlock? prev : curr;
+        }).endBlock,
+        endHighlightedCell: selectedBlock.id,
+        eventModalOpen: true
+      })
+    )
+  }
+
   componentDidMount() {
     this.props.loadEvents()
-
     this.props.loadBlocks()
-    this.addOnClickEvents()
+    // this.addOnClickEvents()
   }
 
   renderEvent(event){
@@ -65,6 +84,18 @@ class Blocks extends Component {
       <div>Loading</div>
     ):(
       <div>
+        <Modal
+          className='modal'
+          overlayClassName='overlay'
+          contentLabel='Modal'
+          isOpen={this.state.eventModalOpen}
+          shouldCloseOnEsc={true}
+        >
+          <div>
+            <h2>adding event</h2>
+            <p>{this.state.startHighlightedCell},{this.state.endHighlightedCell} </p>
+          </div>
+        </Modal>
         <table id="table">
           <tbody>
           {size.map((row,r)=>
@@ -73,8 +104,8 @@ class Blocks extends Component {
                 let block=blocks[r*10+c]
                 return(
                   <td id={block.id}
-                      className={block.selected? "selected":""}
-                      onClick={_=>this.selectTo(block)}
+                      className={block.id >= this.state.startHighlightedCell && block.id <= this.state.endHighlightedCell? "selected":""}
+                      onClick={_=>this.blockClicked(block)}
                       key={block.id}
                   >
                     {this.props.events.map( event=>{
