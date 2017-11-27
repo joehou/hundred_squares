@@ -52,7 +52,6 @@ class Blocks extends Component {
   }
 
   blockClicked(selectedBlock){
-    console.log(selectedBlock)
     this.setState( _=> ({
         startHighlightedCell:this.props.events.reduce(function(prev, curr) {
           return prev.endBlock > curr.endBlock? prev : curr;
@@ -70,9 +69,10 @@ class Blocks extends Component {
   }
 
   componentDidMount() {
+    this.props.resetEditEvent()
     this.props.loadEvents()
     this.props.loadBlocks()
-    // this.addOnClickEvents()
+
   }
 
   renderEvent(event){
@@ -85,7 +85,6 @@ class Blocks extends Component {
   }
 
   render() {
-    console.log(this.props.events)
     let blocks=this.props.blocksAll
     const size= Array.from(new Array(10), (x,i) => i)
     return !this.props.blocksAll || this.props.blocksAll.length==0 ? (
@@ -101,7 +100,18 @@ class Blocks extends Component {
         >
           <div>
             <h2>adding event</h2>
-            <p>{(this.state.endHighlightedCell-this.state.startHighlightedCell) *10} Minutes </p>
+            <p>{this.state.endHighlightedCell-this.state.startHighlightedCell} Blocks = {(this.state.endHighlightedCell-this.state.startHighlightedCell) *10} Minutes </p>
+            {!this.props.currentEvent ?
+              (
+                <div> Loading event</div>
+              ):(
+                <form>
+                  <label>Activity</label>
+                  <input name="eventName" type = "text" value={this.props.currentEvent.eventName} />
+                </form>
+              )
+            }
+
           </div>
         </Modal>
         <Modal
@@ -147,7 +157,8 @@ class Blocks extends Component {
 
 function mapStateToProps({events,blocks}){
   return {
-    events: Object.values(events.events),
+    events: events.events,
+    currentEvent: events.editEvent,
     blocksAll: blocks.blocks
   }
 }

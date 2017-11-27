@@ -7,6 +7,11 @@ function events ( state =initialState,action) {
         ...state,
         events: action.events
       }
+    case types.RESET_EDIT_EVENT:
+      return {
+        ...state,
+        editEvent: blankEvent
+      }
     default:
       return state
   }
@@ -26,9 +31,17 @@ function blocks (state=initialState, action) {
 
 const initialState={
   events:{},
-  blocks:[]
+  blocks:[],
+  editEvent:blankEvent
 }
 
-
+const blankEvent={
+    eventId:1,
+    eventName: "Shower",
+    eventColor: "#42AB9E",
+    eventFontColor: "white",
+    startBlock: 0,
+    endBlock:  5,
+}
 
 export default {events,blocks}

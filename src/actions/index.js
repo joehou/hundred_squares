@@ -18,3 +18,11 @@ export function loadBlocks(){
     })
   }
 }
+
+
+export function resetEditEvent(){
+  return dispatch =>
+    dispatch({
+      type:types.RESET_EDIT_EVENT
+    })
+}

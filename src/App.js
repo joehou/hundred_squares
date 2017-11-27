@@ -12,10 +12,10 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Hundred Blocks a Day</h1>
         </header>
         <p className="App-intro">
-          Click and drag mouse or use shift key to select cells.
+          Blockity block blockity block block block
         </p>
         <Blocks />
       </div>
