@@ -10,6 +10,7 @@ import * as actions from '../actions'
 class Blocks extends Component {
   state = {
     eventModalOpen: false,
+    eventEditModalOpen: false,
     startHighlightedCell: null,
     endHighlightedCell: null
   }
@@ -51,14 +52,21 @@ class Blocks extends Component {
   }
 
   blockClicked(selectedBlock){
+    console.log(selectedBlock)
     this.setState( _=> ({
         startHighlightedCell:this.props.events.reduce(function(prev, curr) {
           return prev.endBlock > curr.endBlock? prev : curr;
         }).endBlock,
         endHighlightedCell: selectedBlock.id,
-        eventModalOpen: true
+        eventModalOpen: selectedBlock.eventID ==null? true: false,
+        eventEditModalOpen: selectedBlock.eventID !=null ? true: false
       })
     )
+  }
+
+  handleCloseModal () {
+    console.log("Closing me")
+    this.setState(_=>({eventModalOpen:false,eventEditModalOpen:false,startHighlightedCell:null,endHighlightedCell:null}));
   }
 
   componentDidMount() {
@@ -89,10 +97,22 @@ class Blocks extends Component {
           overlayClassName='overlay'
           contentLabel='Modal'
           isOpen={this.state.eventModalOpen}
-          shouldCloseOnEsc={true}
+          onRequestClose={_=>this.handleCloseModal()}
         >
           <div>
             <h2>adding event</h2>
+            <p>{(this.state.endHighlightedCell-this.state.startHighlightedCell) *10} Minutes </p>
+          </div>
+        </Modal>
+        <Modal
+          className='modal'
+          overlayClassName='overlay'
+          contentLabel='Modal'
+          isOpen={this.state.eventEditModalOpen}
+          onRequestClose={_=>this.handleCloseModal()}
+        >
+          <div>
+            <h2>Edit existing event</h2>
             <p>{this.state.startHighlightedCell},{this.state.endHighlightedCell} </p>
           </div>
         </Modal>
@@ -114,8 +134,7 @@ class Blocks extends Component {
                       }
                     )}
                   </td>)
-              }
-              )}
+              })}
             </tr>
           )}
           </tbody>
