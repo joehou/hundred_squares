@@ -52,19 +52,20 @@ class Blocks extends Component {
   }
 
   blockClicked(selectedBlock){
+    let startBlock=this.props.events.reduce(function(prev, curr) {
+      return prev.endBlock > curr.endBlock? prev : curr;
+    }).endBlock
     this.setState( _=> ({
-        startHighlightedCell:this.props.events.reduce(function(prev, curr) {
-          return prev.endBlock > curr.endBlock? prev : curr;
-        }).endBlock,
+        startHighlightedCell: startBlock,
         endHighlightedCell: selectedBlock.id,
         eventModalOpen: selectedBlock.eventID ==null? true: false,
         eventEditModalOpen: selectedBlock.eventID !=null ? true: false
-      })
+      }),
+      _=> this.props.setEditEvent(startBlock,selectedBlock.id)
     )
   }
 
   handleCloseModal () {
-    console.log("Closing me")
     this.setState(_=>({eventModalOpen:false,eventEditModalOpen:false,startHighlightedCell:null,endHighlightedCell:null}));
   }
 
@@ -79,7 +80,14 @@ class Blocks extends Component {
     return(
       <p className="event-icon"
         style={{backgroundColor:event.eventColor,color:event.eventFontColor}}>
-        {event.eventName.slice(0,2)}
+      </p>
+    )
+  }
+  renderEventStart(event){
+    return(
+      <p className="event-icon"
+         style={{backgroundColor:event.eventColor,color:event.eventFontColor}}>
+        {event.eventName}
       </p>
     )
   }
@@ -93,7 +101,6 @@ class Blocks extends Component {
       <div>
         <Modal
           className='modal'
-          overlayClassName='overlay'
           contentLabel='Modal'
           isOpen={this.state.eventModalOpen}
           onRequestClose={_=>this.handleCloseModal()}
@@ -105,9 +112,24 @@ class Blocks extends Component {
               (
                 <div> Loading event</div>
               ):(
-                <form>
-                  <label>Activity</label>
+                <form onChange={event=>this.props.updateEditEvent({propertyName: event.target.name, value: event.target.value})}>
+                  <label>Activity: </label>
                   <input name="eventName" type = "text" value={this.props.currentEvent.eventName} />
+                  <br />
+                  <label>Block Color:</label>
+                  <input name="eventColor" type="text" value={this.props.currentEvent.eventColor} />
+                  <br />
+                  <label>Font Color:</label>
+                  <input name="eventFontColor" type="text" value={this.props.currentEvent.eventFontColor} />
+                  {this.props.currentEvent.startBlock}, {this.props.currentEvent.endBlock}
+                  <br />
+                  <button type="submit" onClick={event=>{
+                    event.preventDefault()
+                    this.props.createEvent(this.props.currentEvent)
+                    this.handleCloseModal()
+                  }}>
+                    Save
+                  </button>
                 </form>
               )
             }
@@ -116,7 +138,6 @@ class Blocks extends Component {
         </Modal>
         <Modal
           className='modal'
-          overlayClassName='overlay'
           contentLabel='Modal'
           isOpen={this.state.eventEditModalOpen}
           onRequestClose={_=>this.handleCloseModal()}
@@ -139,7 +160,9 @@ class Blocks extends Component {
                       key={block.id}
                   >
                     {this.props.events.map( event=>{
-                        if (block.id >= event.startBlock && block.id<=event.endBlock)
+                        if (block.id == event.startBlock)
+                          return this.renderEventStart(event)
+                        else if (block.id >= event.startBlock && block.id<=event.endBlock)
                           return this.renderEvent(event)
                       }
                     )}

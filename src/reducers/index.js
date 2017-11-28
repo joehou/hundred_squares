@@ -12,6 +12,23 @@ function events ( state =initialState,action) {
         ...state,
         editEvent: blankEvent
       }
+    case types.SET_EDIT_EVENT:
+      return {
+        ...state,
+        editEvent: {...state.editEvent,startBlock:action.highlightRange.startBlock+1,endBlock:action.highlightRange.endBlock}
+      }
+    case types.UPDATE_EDIT_EVENT:
+      return {
+        ...state,
+        editEvent: {...state.editEvent,[action.update.propertyName]: action.update.value}
+      }
+    case types.CREATE_EDIT_EVENT:
+      return {
+        ...state,
+        events: [...state.events,action.event],
+
+        editEvent: blankEvent
+      }
     default:
       return state
   }
@@ -37,11 +54,11 @@ const initialState={
 
 const blankEvent={
     eventId:1,
-    eventName: "Shower",
-    eventColor: "#42AB9E",
-    eventFontColor: "white",
-    startBlock: 0,
-    endBlock:  5,
+    eventName: "",
+    eventColor: "",
+    eventFontColor: "",
+    startBlock: null,
+    endBlock:  null,
 }
 
 export default {events,blocks}
