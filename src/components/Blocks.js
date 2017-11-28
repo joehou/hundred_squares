@@ -86,8 +86,25 @@ class Blocks extends Component {
   renderEventStart(event){
     return(
       <p className="event-icon"
-         style={{backgroundColor:event.eventColor,color:event.eventFontColor}}>
+         style={{backgroundColor:event.eventColor,color:event.eventFontColor,lineHeight:"80px"
+         }}>
+        {event.eventName} - 50m
+      </p>
+    )
+  }
+  renderEventSingle(event){
+    return(
+      <p className="event-icon"
+         style={{backgroundColor:event.eventColor,color:event.eventFontColor,whiteSpace:"normal"}}>
         {event.eventName}
+      </p>
+    )
+  }
+  renderEventEnd(event){
+    return(
+      <p className="event-icon"
+         style={{backgroundColor:event.eventColor,color:event.eventFontColor}}>
+        10m
       </p>
     )
   }
@@ -160,8 +177,30 @@ class Blocks extends Component {
                       key={block.id}
                   >
                     {this.props.events.map( event=>{
-                        if (block.id == event.startBlock)
-                          return this.renderEventStart(event)
+                        if (block.id == event.startBlock && event.endBlock ==event.startBlock)
+                          return (
+                            <div className="one-cell-event">
+                              {this.renderEventSingle(event)}
+                            </div>
+                           )
+                        else if (block.id == event.startBlock && event.endBlock ==event.startBlock+1)
+                          return (
+                            <div className="two-cell-event">
+                              {this.renderEventSingle(event)}
+                            </div>
+                          )
+                        else if (block.id == event.endBlock && event.endBlock ==event.startBlock+1)
+                          return (
+                            <div className="two-cell-event">
+                              {this.renderEventEnd(event)}
+                            </div>
+                          )
+                        else if (block.id == event.startBlock && event.endBlock >event.startBlock+1)
+                          return (
+                            <div className="multi-cell-event">
+                              {this.renderEventStart(event)}
+                            </div>
+                          )
                         else if (block.id >= event.startBlock && block.id<=event.endBlock)
                           return this.renderEvent(event)
                       }
@@ -182,7 +221,7 @@ function mapStateToProps({events,blocks}){
   return {
     events: events.events,
     currentEvent: events.editEvent,
-    blocksAll: blocks.blocks
+    blocksAll: events.blocks
   }
 }
 

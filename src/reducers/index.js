@@ -2,6 +2,11 @@ import * as types from '../actions/types'
 
 function events ( state =initialState,action) {
   switch(action.type){
+    case types.LOAD_BLOCKS_SUCCESS:
+      return{
+        ...state,
+        blocks: action.blocks
+      }
     case types.LOAD_EVENTS_SUCCESS:
       return{
         ...state,
@@ -23,10 +28,19 @@ function events ( state =initialState,action) {
         editEvent: {...state.editEvent,[action.update.propertyName]: action.update.value}
       }
     case types.CREATE_EDIT_EVENT:
+      console.log(state.blocks)
       return {
         ...state,
         events: [...state.events,action.event],
+        blocks: state.blocks.map(block=>{
+          console.log("Checkin in reducers")
+          if (block.id ==action.event.startBlock){
+            return {...block, eventID:99}
+          }else{
+            return block
+          }
 
+        }),
         editEvent: blankEvent
       }
     default:
@@ -34,17 +48,6 @@ function events ( state =initialState,action) {
   }
 }
 
-function blocks (state=initialState, action) {
-  switch(action.type){
-    case types.LOAD_BLOCKS_SUCCESS:
-      return{
-        ...state,
-        blocks: action.blocks
-      }
-    default:
-      return state
-  }
-}
 
 const initialState={
   events:{},
@@ -61,4 +64,4 @@ const blankEvent={
     endBlock:  null,
 }
 
-export default {events,blocks}
+export default {events}
