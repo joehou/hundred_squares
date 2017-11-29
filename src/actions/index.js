@@ -26,6 +26,14 @@ export function resetEditEvent(){
     })
 }
 
+export function getEditEvent(eventID){
+  return dispatch =>
+    dispatch({
+      type:types.GET_EDIT_EVENT,
+      eventID: eventID
+    })
+}
+
 export function setEditEvent(startBlock,endBlock){
   return dispatch =>
     dispatch({
@@ -47,6 +55,15 @@ export function createEvent(event){
   return dispatch=>{
     dispatch({
       type: types.CREATE_EDIT_EVENT,
+      event
+    })
+  }
+}
+
+export function updateEvent(event){
+  return dispatch=>{
+    dispatch({
+      type: types.UPDATE_EVENT,
       event
     })
   }

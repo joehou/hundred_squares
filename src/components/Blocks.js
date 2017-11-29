@@ -15,18 +15,14 @@ class Blocks extends Component {
     endHighlightedCell: null
   }
 
-  addOnClickEvents(){
-    var blocks=document.querySelectorAll("td")
-    console.log(blocks)
-    blocks.forEach( block =>{
-      block.addEventListener("mousedown",event => {
-        let block=event.target
-        let coords=this.getCoordinates(block)
-        this.selectTo(block)
-      })
-    })
-  }
 
+  convertMinsToHrsMins(minutes) {
+    var h = Math.floor(minutes / 60);
+    var m = minutes % 60;
+    h = h < 10 ?  h : h;
+    m = m < 10 ?  m : m;
+    return h + 'h ' + m+'m';
+  }
 
   getInitials(string){
     var names = string.split(' '),
@@ -37,19 +33,6 @@ class Blocks extends Component {
     return initials;
   };
 
-  selectTo(selectedBlocks){
-    console.log(selectedBlocks)
-    var blocks=this.props.blocksAll
-    var blocks=document.querySelectorAll("td")
-    blocks.forEach( blocks => {
-      let coords=this.getCoordinates(blocks)
-      if ((coords.rowIndex < selectedBlocks.parentElement.rowIndex)||
-        (coords.cellIndex<selectedBlocks.cellIndex+1 && coords.rowIndex == selectedBlocks.parentElement.rowIndex )
-      ){
-        blocks.className="selected"
-      }
-    })
-  }
 
   blockClicked(selectedBlock){
     let startBlock=this.props.events.reduce(function(prev, curr) {
@@ -58,11 +41,16 @@ class Blocks extends Component {
     this.setState( _=> ({
         startHighlightedCell: startBlock,
         endHighlightedCell: selectedBlock.id,
-        eventModalOpen: selectedBlock.eventID ==null? true: false,
-        eventEditModalOpen: selectedBlock.eventID !=null ? true: false
-      }),
-      _=> this.props.setEditEvent(startBlock,selectedBlock.id)
+        eventModalOpen: true
+      }),_=>{
+      if (selectedBlock.eventID ==null){
+        this.props.setEditEvent(startBlock,selectedBlock.id)
+      }else{
+        this.props.getEditEvent(selectedBlock.eventID)
+      }
+      }
     )
+
   }
 
   handleCloseModal () {
@@ -124,7 +112,7 @@ class Blocks extends Component {
         >
           <div>
             <h2>adding event</h2>
-            <p>{this.state.endHighlightedCell-this.state.startHighlightedCell} Blocks = {(this.state.endHighlightedCell-this.state.startHighlightedCell) *10} Minutes </p>
+            <p>{this.state.endHighlightedCell-this.state.startHighlightedCell} Blocks = {this.convertMinsToHrsMins( (this.state.endHighlightedCell-this.state.startHighlightedCell)*10) } </p>
             {!this.props.currentEvent ?
               (
                 <div> Loading event</div>
@@ -140,28 +128,33 @@ class Blocks extends Component {
                   <input name="eventFontColor" type="text" value={this.props.currentEvent.eventFontColor} />
                   {this.props.currentEvent.startBlock}, {this.props.currentEvent.endBlock}
                   <br />
-                  <button type="submit" onClick={event=>{
-                    event.preventDefault()
-                    this.props.createEvent(this.props.currentEvent)
+                  { (this.props.currentEvent.eventID ==null)?(
+                      <button type="submit" onClick={event=>{
+                        event.preventDefault()
+                        this.props.createEvent(this.props.currentEvent)
+                        this.handleCloseModal()
+                      }}>
+                        Create
+                      </button>
+                    ):(
+                      <button type="submit" onClick={event=>{
+                        event.preventDefault()
+                        this.props.updateEvent(this.props.currentEvent)
+                        this.handleCloseModal()
+                      }}>
+                        Update
+                      </button>
+                  )}
+                  <button type="cancel" onClick={event =>{
+                    this.props.resetEditEvent()
                     this.handleCloseModal()
                   }}>
-                    Save
+                    Cancel
                   </button>
                 </form>
               )
             }
 
-          </div>
-        </Modal>
-        <Modal
-          className='modal'
-          contentLabel='Modal'
-          isOpen={this.state.eventEditModalOpen}
-          onRequestClose={_=>this.handleCloseModal()}
-        >
-          <div>
-            <h2>Edit existing event</h2>
-            <p>{this.state.startHighlightedCell},{this.state.endHighlightedCell} </p>
           </div>
         </Modal>
         <table id="table">

@@ -22,6 +22,12 @@ function events ( state =initialState,action) {
         ...state,
         editEvent: {...state.editEvent,startBlock:action.highlightRange.startBlock+1,endBlock:action.highlightRange.endBlock}
       }
+    case types.GET_EDIT_EVENT:
+      console.log(action.eventID)
+      return {
+        ...state,
+        editEvent: state.events.find(event=> event.eventID==action.eventID)
+      }
     case types.UPDATE_EDIT_EVENT:
       return {
         ...state,
@@ -43,6 +49,18 @@ function events ( state =initialState,action) {
         }),
         editEvent: blankEvent
       }
+    case types.UPDATE_EVENT:
+      return {
+        ...state,
+        events: state.events.map(event=>{
+          if (event.eventID===action.event.eventID){
+            return action.event
+          }else{
+            return event
+          }
+        }),
+        editEvent: blankEvent
+      }
     default:
       return state
   }
@@ -56,7 +74,7 @@ const initialState={
 }
 
 const blankEvent={
-    eventId:1,
+    eventID:null,
     eventName: "",
     eventColor: "",
     eventFontColor: "",
