@@ -1,8 +1,28 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const appConfig = require('./config.js');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const compression = require('compression');
+const express = require('express');
+const expressSession = require('express-session');
+
+// Express Session
+const sessionValues = {
+  cookie: {},
+    name: 'sessionId',
+    resave: false,
+    saveUninitialized: true,
+    secret: appConfig.expressSession.secret,
+};
+const favicon = require('serve-favicon');
+const LocalStrategy = require('passport-local').Strategy;
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const path = require('path');
+const webpack = require('webpack');
+const webpackConfig = require('./webpack.config.babel');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+ const webpackHotMiddleware = require('webpack-hot-middleware');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -21,8 +41,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Webpack Server
+if (process.env.NODE_ENV !== 'production') {
+  const webpackCompiler = webpack(webpackConfig);
+  app.use(webpackDevMiddleware(webpackCompiler, {
+    publicPath: webpackConfig.output.publicPath,
+    stats: {
+      colors: true,
+      chunks: true,
+      'errors-only': true,
+    },
+  }));
+  app.use(webpackHotMiddleware(webpackCompiler, {
+    log: console.log,
+  }));
+}
+
 app.use('/users', users);
-app.use('/*', index);
+app.use('/', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

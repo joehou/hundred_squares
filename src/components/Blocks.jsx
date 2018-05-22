@@ -8,14 +8,15 @@ import * as actions from '../actions'
 
 
 class Blocks extends Component {
-  state = {
-    eventModalOpen: false,
-    eventEditModalOpen: false,
-    startHighlightedCell: null,
-    endHighlightedCell: null
+  constructor(props){
+    super(props)
+      this.state = {
+      eventModalOpen: false,
+      eventEditModalOpen: false,
+      startHighlightedCell: null,
+      endHighlightedCell: null
+      }
   }
-
-
   convertMinsToHrsMins(minutes) {
     var h = Math.floor(minutes / 60);
     var m = minutes % 60;

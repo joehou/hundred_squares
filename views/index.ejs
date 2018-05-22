@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>joes<%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>missing js<%= title %></title>
+      <% if (process.env.NODE_ENV === 'production') { %>
+    <link rel="stylesheet" href="/stylesheets/style-prod.css" />
+      <% } else { %>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+      <% } %>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div id="react-app">Loading....</div>
   </body>
+  <% if (process.env.NODE_ENV === 'production') { %>
+  <script src="/javascripts/build-prod.js"></script>
+  <% } else { %>
+  <script src="/javascripts/build.js"></script>
+  <% } %>
+
+
 </html>

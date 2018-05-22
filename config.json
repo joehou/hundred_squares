@@ -1,0 +1,16 @@
+{
+  "crypto": {
+    "secret": "sda46ufgh239d7fjhwi0sejhrgw4ersjdf8u7eweoi42hg0siojg"
+  },
+  "expressSession" : {
+    "secret": "random strings here are good"
+  },
+  "mailgun": {
+    "apiKey": "key-a6831fad9c681569479ab46734f662a8",
+    "domain": "sandboxfa58bac976052d5e93f1cfa0b54c5337.mailgun.org"
+  },
+  "discogs": {
+    "key": "lyWFQrPggETmSdjTLlrb",
+    "secret": "PopGasWPeysEHqJilyXGSRFYaAKYxOxn"
+  }
+}
