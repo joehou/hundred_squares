@@ -10,7 +10,7 @@ import thunk from 'redux-thunk'
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import registerServiceWorker from './registerServiceWorker';
-import App from './App';
+import TemplateContainer from './components/TemplateContainer'
 
 import './css/index.css'
 
@@ -45,10 +45,10 @@ const renderApp = (Component) => {
   );
 };
 
-renderApp(App)
+renderApp(TemplateContainer)
 
 if (module && module.hot) {
-  module.hot.accept('./components/Blocks', () => {
-      renderApp(Blocks);
+  module.hot.accept('./components/TemplateContainer', () => {
+      renderApp(TemplateContainer);
   });
 }

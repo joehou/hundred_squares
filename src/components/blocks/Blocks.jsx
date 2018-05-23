@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Route, Switch,Link,withRouter} from 'react-router-dom'
 import Modal from 'react-modal'
 
-import * as actions from '../actions'
+import * as actions from '../../actions'
 
 
 
