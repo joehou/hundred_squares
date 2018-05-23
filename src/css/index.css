@@ -6,9 +6,9 @@ body {
 }
 table td {
   border: 1px solid #999;
-  min-width: 70px;
-  max-width: 70px;
-  height: 70px;
+  min-width: 50px;
+  max-width: 50px;
+  height: 50px;
   margin: 0px;
   padding:0;
   white-space: nowrap;
@@ -27,12 +27,12 @@ td.selected {
 .event-icon{
   margin:0;
   text-indent: 10px;
-  height:80px;
+  height:50px;
   font-weight:bold;
   text-align:center;
   overflow:visible;
   text-overflow: ellipsis;
-  font-size: xx-large;
+  font-size: x-large;
 }
 .one-cell-event{
   overflow: hidden;
@@ -40,9 +40,8 @@ td.selected {
 
 
 .one-cell-event p{
-
-  min-width:80px;
-  font-size: small;
+  min-width:50px;
+  font-size: x-small;
   white-space: normal;
   display: table-cell;
   vertical-align: middle;
@@ -50,8 +49,8 @@ td.selected {
 }
 
 .two-cell-event p{
-  min-width:80px;
-  font-size: small;
+  min-width:50px;
+  font-size: x-small;
   white-space: normal;
   display: table-cell;
   vertical-align: middle;
