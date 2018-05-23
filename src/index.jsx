@@ -12,6 +12,9 @@ import createHistory from 'history/createBrowserHistory'
 import registerServiceWorker from './registerServiceWorker';
 import TemplateContainer from './components/TemplateContainer'
 
+// CSS from a module
+import 'bootstrap/dist/css/bootstrap.css';
+
 import './css/index.css'
 
 // Default export from a local file
