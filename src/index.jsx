@@ -13,9 +13,9 @@ import registerServiceWorker from './registerServiceWorker';
 import TemplateContainer from './components/TemplateContainer'
 
 // CSS from a module
-import 'bootstrap/dist/css/bootstrap.css';
 
 import './css/index.css'
+import 'bootstrap/dist/css/bootstrap.css';
 
 // Default export from a local file
 import DevTools from './components/shared/DevTools';
@@ -39,7 +39,6 @@ const renderApp = (Component) => {
         <ConnectedRouter history={history}>
 	  <div>
 	    <Component />
-	    <DevTools/>
 	  </div>
 	</ConnectedRouter>
       </Provider>

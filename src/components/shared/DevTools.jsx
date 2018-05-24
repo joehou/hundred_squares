@@ -5,9 +5,9 @@ import { createDevTools } from 'redux-devtools';
 
 const DevTools = createDevTools(
   <DockMonitor
-    toggleVisibilityKey="ctrl-h"
+    toggleVisibilityKey="ctrl-m"
     changePositionKey="ctrl-q"
-    defaultIsVisible ={false}
+    defaultIsVisible ={true}
   >
     <LogMonitor theme="tomorrow" />
   </DockMonitor>,

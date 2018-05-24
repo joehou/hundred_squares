@@ -57,23 +57,6 @@ td.selected {
   padding:0
 }
 
-.modal {
-  position: absolute;
-  top: 200px;
-  left: 300px;
-  right: 200px;
-  bottom: 40px;
-  border: 1px solid rgb(204, 204, 204);
-  background: rgb(255, 255, 255);
-  overflow: auto;
-  border-radius: 4px;
-  outline: none;
-  padding: 20px;
-  border-radius: 3px;
-  box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
-  width:  500px;
-  height: 500px;
-}
 
 .overlay {
   position: fixed;

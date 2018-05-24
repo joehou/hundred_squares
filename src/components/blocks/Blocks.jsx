@@ -17,6 +17,11 @@ class Blocks extends Component {
       endHighlightedCell: null
       }
   }
+  
+  componentWillMount() {
+    Modal.setAppElement('body')
+  }
+
   convertMinsToHrsMins(minutes) {
     var h = Math.floor(minutes / 60);
     var m = minutes % 60;
@@ -106,10 +111,35 @@ class Blocks extends Component {
     ):(
       <div>
         <Modal
-          className='modal'
+          appElement={document.getElementById('app')}
+          className='modal-old'
           contentLabel='Modal'
           isOpen={this.state.eventModalOpen}
           onRequestClose={_=>this.handleCloseModal()}
+          style={{
+                    overlay: {
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+                  },
+                  content: {
+                    position: 'absolute',
+                    top: '40px',
+                    left: '40px',
+                    right: '40px',
+                    bottom: '40px',
+                    border: '1px solid #ccc',
+                    background: '#fff',
+                    overflow: 'auto',
+                    WebkitOverflowScrolling: 'touch',
+                    borderRadius: '4px',
+                    outline: 'none',
+                    padding: '20px'
+                  }
+                }}
         >
           <div>
             <h2>adding event</h2>
