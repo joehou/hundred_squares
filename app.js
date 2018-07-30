@@ -22,12 +22,14 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.babel');
 const webpackDevMiddleware = require('webpack-dev-middleware');
- const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
+const authentication = require('./routes/api/authentication')
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+mongoose.connect('mongodb://localhost/hundredsquares')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +42,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(expressSession(sessionValues))
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Webpack Server
 if (process.env.NODE_ENV !== 'production') {
@@ -58,7 +64,15 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.use('/users', users);
-app.use('/', index);
+app.use('/api/authentication', authentication)
+app.use('/*', index);
+
+//Configure passport
+const User = require('./models/user')
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
