@@ -26,7 +26,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const authentication = require('./routes/api/authentication')
 var index = require('./routes/index');
-var users = require('./routes/users');
+var users = require('./routes/api/users');
 
 var app = express();
 mongoose.connect('mongodb://localhost/hundredsquares')
@@ -63,7 +63,7 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 }
 
-app.use('/users', users);
+app.use('/api/users', users);
 app.use('/api/authentication', authentication)
 app.use('/*', index);
 
