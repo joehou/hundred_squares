@@ -19,11 +19,11 @@ router.post('/register', (req, res) => {
     email: req.body.email,
   });
   User.register(newUser, req.body.password, (err,user) => {
-    console.log('register from api using mongo')
     if (err){
-      return res.send(JSON.stringify({ error: err}))
+      console.log(err)
+      return res.status(400).send(JSON.stringify({ error: err}))
     }
-    return res.send(JSON.stringify(user))
+    return res.status(201).send(JSON.stringify(user))
   })
 });
 

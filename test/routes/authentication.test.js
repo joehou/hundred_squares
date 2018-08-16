@@ -8,12 +8,16 @@ const app = require('../../app')
 const User = require('../../models/user')
 
 describe('Server Path: /api/authentication/register', () => {
-  beforeEach(connectDatabase)
-  afterEach(disconnectDatabase)
+  beforeEach( () => { connectDatabase()})
+  afterEach(  async () => {
+    console.log('after')
+    disconnectDatabase()
+    await User.deleteOne({username:newUser.username})
+  })
+  const newUser = buildUserRegistration()
 
   describe('POST', () => {
-    it('it creates a new user', async() => { 
-       const newUser = buildUserRegistration()
+    it('it creates a new user and returns 201', async() => { 
        const response = await request(app)
          .post('/api/authentication/register')
          .type('form')
@@ -23,10 +27,8 @@ describe('Server Path: /api/authentication/register', () => {
        const createdUser = await User.findOne({username:newUser.username})
 
        assert.isNotNull( createdUser, 'user was not found in DB') 
-       User.deleteOne({username:newUser.username})
-
-       //assert.equal(response.text,'ok')
-       //assert.equal(response.statusCode,201)
+       assert.equal(response.statusCode,201)
+     
     })
   })
 })
