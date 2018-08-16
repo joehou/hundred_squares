@@ -27,7 +27,7 @@ module.exports = {
     './index.jsx',
   ],
   output: jsOutputLocation,
-  mode: process.env.NODE_ENV,
+  mode: 'development',//process.env.NODE_ENV,
   resolve: {
     extensions: ['.js', '.jsx'],
   },
