@@ -3,7 +3,7 @@ const buildUserRegistration = (options={}) => {
   const password = options.password || "Password1"
   const firstName = options.firstName || "TestJoe"
   const lastName = options.lastName || "TestHou"
-  const email = options.email || "tyranthou2@gmail.com"
+  const email = options.email || "test@test.com"
   return {username, password, firstName, lastName, email}
 }
 
