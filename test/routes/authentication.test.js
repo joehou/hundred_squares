@@ -7,14 +7,14 @@ const { connectDatabase, disconnectDatabase} = require('../setup-teardown-utils.
 const app = require('../../app')
 const User = require('../../models/user')
 
-describe('Server Path: /api/authentication/register', () => {
-  beforeEach( () => { connectDatabase()})
-  afterEach(    disconnectDatabase)
-  describe('POST', () => {
+describe("Server Path: /api/authentication/register", () => {
+  beforeAll( () => { connectDatabase()})
+  afterAll(    disconnectDatabase)
+  describe("POST", () => {
     const newUser = buildUserRegistration()
 
 
-   it('it creates a new user and returns 201', async() => { 
+   it("it creates a new user and returns 201", async() => { 
        const response = await request(app)
          .post('/api/authentication/register')
          .type('form')
@@ -28,7 +28,7 @@ describe('Server Path: /api/authentication/register', () => {
        await User.find({username:newUser.username}).remove().exec()
     })
 
-    it('it returns a 400 when user with no username is posted and does not createuser',async () =>{
+    it("it returns a 400 when user with no username is posted and does not createuser",async () =>{
        var badUser = Object.assign({},newUser) 
        badUser.username=null
         
