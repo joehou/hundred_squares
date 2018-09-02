@@ -8,7 +8,7 @@
     "start-dev": "SET NODE_ENV=development&& node ./bin/www",
     "start-dev-mac": "NODE_ENV=development node ./bin/www",
     "build-prod": "NODE_ENV=production&&webpack -p --config webpack.config.babel.js",
-    "test":"jest"
+    "test": "jest"
   },
   "dependencies": {
     "availity-reactstrap-validation": "^2.0.2",
@@ -38,6 +38,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
+    "puppeteer": "^1.7.0",
     "react": "^16.2.0",
     "react-addons-css-transition-group": "^15.6.2",
     "react-addons-transition-group": "^15.6.2",
