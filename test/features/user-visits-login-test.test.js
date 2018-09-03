@@ -23,7 +23,7 @@ describe("User visits login page", () => {
   describe("starts with empty login on login page", () =>{
     it("Has the correct title", async () =>{
       const  expectedTitle = 'Login'
-      await page.goto("http://localhost:3000/");
+      await page.goto("http://localhost:3000/account/login");
       // await page.waitForSelector('.welcome-message');
       const title = await page.title()
       expect(title).toBe(expectedTitle)
