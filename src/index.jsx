@@ -26,9 +26,10 @@ const history = createHistory()
 const middleware = routerMiddleware(history)
 
 const store = createStore(
-  combineReducers({
-    ...reducers,
-    router: routerReducer }),
+  //  combineReducers({
+  //  ...reducers,
+  //  router: routerReducer }),
+  reducers,
   composeEnhancers(applyMiddleware(middleware,thunk,logger))
 )
 

@@ -8,7 +8,7 @@ const height = 1080
 
 beforeAll(async () => {
     browser = await puppeteer.launch({
-          headless: true,
+          headless: false,
           slowMo: 80, 
           args: [`--window-size=${width},${height}`]
         },100000);
@@ -20,13 +20,18 @@ afterAll(() => {
 });
 
 describe("User visits login page", () => {
-  describe("starts with empty login on login page", () =>{
-    it("Has the correct title", async () =>{
-      const  expectedTitle = 'Login'
-      await page.goto("http://localhost:3000/account/login");
-      // await page.waitForSelector('.welcome-message');
+  describe("renders login page", () => {
+    it("can enter credentials and submit login", async () =>{
+      await page.goto("http://localhost:3000/account/login")
+      await page.waitForSelector("#login-form")
+      await page.click("input[name=userEmail]")
+      await page.type("input[name=userEmail]", "tyranthou@gmail.com")
+      await page.click("input[name=userPassword]")
+      await page.type("input[name=userPassword]", "Yarpyarp1") 
+      await page.click("button[name=login]")
+      await page.waitForNavigation({waitUntil: 'load'})
       const title = await page.title()
-      expect(title).toBe(expectedTitle)
+      expect(title).toBe("home")
     },100000)
   })
 })

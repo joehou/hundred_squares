@@ -1,7 +1,7 @@
 import React, {Component}from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-//import { logUserIn } from '../../actions/authentication';
+import { logUserIn } from '../../actions/authentication';
 
 import LoginPage from './LoginPage';
 
@@ -15,13 +15,13 @@ class LoginPageContainer extends Component {
 
   logUserInFunction(userData) {
     const { dispatch } = this.props;
-    //    dispatch(logUserIn(userData));
+    dispatch(logUserIn(userData));
   }
 
   render(){
     const { authentication } = this.props;
 
-    if (/*authentication.isLoggedIn*/ false) {
+    if (authentication.isLoggedIn ) {
       return (
         <Redirect to="/" />
       );
@@ -36,7 +36,7 @@ class LoginPageContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    //authentication: state.authentication,
+    authentication: state.authentication,
   };
 }
 

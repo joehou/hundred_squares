@@ -34,19 +34,20 @@ export default class LoginPage extends Component {
   handleValidSubmit() {
     const { loginFunction } = this.props;
     const formData = this.state;
+    console.log('hi')
     loginFunction(formData);
   }
 
   render() {
     return(
       <div className="row justify-content-center">
-        <div className="col-10 col-sm-7 col-md-5 col-lg-4">
+        <div id="login-form" className="col-10 col-sm-7 col-md-5 col-lg-4">
           <AvForm onValidSubmit={this.handleValidSubmit}>
             <AvGroup>
                 <Label for="exampleEmail">Email</Label>
                 <AvInput
                   type="email"
-                  name="email"
+                  name="userEmail"
                   id="userEmail"
                   placeholder="noreply@musiclist.com"
                   value={this.state.email}
@@ -59,7 +60,7 @@ export default class LoginPage extends Component {
               <Label for="userPassword">Password</Label>
               <AvInput
                 id="userPassword"
-                name="password"
+                name="userPassword"
                 onChange={this.handlePasswordChange}
                 onKeyPress={this.handleKeyPress}
                 placeholder="password"
@@ -70,7 +71,7 @@ export default class LoginPage extends Component {
               <AvFeedback>Password is required to log in</AvFeedback>
               <span><Link to="/account/reset-password">Forgot your password?</Link></span>
             </AvGroup>
-            <Button color="primary">Log In</Button>
+            <Button name="login" color="primary">Log In</Button>
           </AvForm>
         </div>
       </div>
