@@ -25,8 +25,8 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const authentication = require('./routes/api/authentication')
-var index = require('./routes/index');
 var users = require('./routes/api/users');
+var index = require('./routes/index');
 
 var app = express();
 mongoose.connect('mongodb://localhost/hundredsquares')
