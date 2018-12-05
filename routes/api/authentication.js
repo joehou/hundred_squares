@@ -12,6 +12,7 @@ mongoose.Promise=global.Promise
 // POST to /login
 router.post('/login', async (req,res) => {
   const query = User.findOne({ email: req.body.email })
+  console.log(req.body.email)
   const foundUser = await query.exec()
   // if the user exists they'll have an username so lets add that to our body and authenticate with passport
   if (foundUser) { req.body.username = foundUser.username } 

@@ -110,6 +110,7 @@ class Blocks extends Component {
       <div>Loading</div>
     ):(
       <div>
+        <h1>Square</h1>
         <Modal
           appElement={document.getElementById('app')}
           className='modal-old'

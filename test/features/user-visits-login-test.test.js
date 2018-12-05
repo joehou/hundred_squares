@@ -8,7 +8,7 @@ const height = 1080
 
 beforeAll(async () => {
     browser = await puppeteer.launch({
-          headless: true,
+          headless: false,
           slowMo: 80, 
           args: [`--window-size=${width},${height}`]
         },100000);
@@ -30,8 +30,8 @@ describe("User visits login page", () => {
       await page.type("input[name=userPassword]", "Yarpyarp1") 
       await page.click("button[name=login]")
       await page.waitForNavigation({waitUntil: 'load'})
-      const title = await page.title()
-      expect(title).toBe("home")
+      const title = await page.$eval('h1', el => el.innerText)
+      expect(title).toBe("Square")
     },100000)
   })
 })
