@@ -30,8 +30,22 @@ describe("User visits login page", () => {
       await page.type("input[name=userPassword]", "Yarpyarp1") 
       await page.click("button[name=login]")
       await page.waitForNavigation({waitUntil: 'load'})
-      const title = await page.$eval('h1', el => el.innerText)
-      expect(title).toBe("Square")
+      const text = await page.$eval('h1', el => el.innerText)
+      expect(text).toBe("Square")
+    },100000),
+    it("will stay on same page and show error if incorrect login isentered", async () => {
+      await page.goto("http://localhost:3000/account/login")
+      await page.waitForSelector("#login-form")
+      await page.click("input[name=userEmail]")
+      await page.type("input[name=userEmail]","tyranthou@gmail.com")
+      await page.click("input[name=userPassword]")
+      await page.type("input[name=userPassword]","BADPASSWORDBAD")
+      await page.click("button[name=login]")
+      await page.waitForSelector('strong')
+      const text = await page.$eval('strong', el => el.innerText)
+      expect (text).toContain("Error")
+
     },100000)
+    
   })
 })

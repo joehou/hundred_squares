@@ -18,8 +18,10 @@ router.post('/login', async (req,res) => {
   if (foundUser) { req.body.username = foundUser.username } 
   passport.authenticate('local')(req,res, ()=> {
     if (req.user) {
+      console.log('founduser')
       return res.send(JSON.stringify(req.user)) 
     }
+    console.log('error loggingin')
     return res.send(JSON.stringify({ error: 'Thrre was an error loggin in'}))
   })
 })
