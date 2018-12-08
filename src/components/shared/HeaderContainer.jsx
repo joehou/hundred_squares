@@ -9,8 +9,9 @@ class HeaderContainer extends Component {
   }
 
   render (){
+    const {authentication} =this.props
     return(
-      <Header />
+      <Header authentication = {authentication} />
     )
   }
 }

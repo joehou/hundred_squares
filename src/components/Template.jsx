@@ -7,10 +7,12 @@ import LoginPage from  './account/LoginPageContainer.jsx'
 
 export default function Template(props) {
 
+  const { authentication } = props
+
   return (
     <Router>
       <div className="wrapper">
-        <HeaderContainer />
+        <HeaderContainer authentication = {authentication}  />
         <section className="page-content container-fluid">
           <ErrorBox />
           <div className="loader-wrapper" style={0 > 0 ? { display: 'block' } : { display: 'none' }}>

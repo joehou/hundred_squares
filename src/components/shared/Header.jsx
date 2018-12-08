@@ -17,6 +17,8 @@ export default class Header extends React.Component {
   constructor(props) {
     super(props);
 
+    this.toggleNavbar = this.toggleNavbar.bind(this)
+
     this.state = {
       isOpen: false,
     };
@@ -33,7 +35,7 @@ export default class Header extends React.Component {
     return (
       <Nav className="ml-auto" navbar>
         <NavItem>
-          <span className="nav-link">Welcome, {name}
+          <span className="nav-link welcome">Welcome, {name}
            | <a href="/logout" onClick={this.logOutClick}>Log Out</a>
           </span>
         </NavItem>
@@ -42,18 +44,21 @@ export default class Header extends React.Component {
   }
 
   render() {
+    const {isLoggedIn,firstName} = this.props.authentication
     return (
       <header className="wrapper">
         <Navbar color="faded" light toggleable>
-          <NavbarToggler right onClick={this.toggleNavbar} />
-          <NavbarBrand tag={Link} to="/">MusicList</NavbarBrand>
+          <NavbarBrand tag={Link} to="/">Hundred Blocks</NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink tag={Link} to="/albums">Albums</NavLink>
+                <NavLink tag={Link} to="/albums">My Squares</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/artists">Artists</NavLink>
+              </NavItem>
+              <NavItem>
+                {!isLoggedIn? <NavLink id='login-link' tag={Link} to="/account/login">Log In</NavLink> :this.renderGreeting(firstName)}
               </NavItem>
             </Nav>
           </Collapse>

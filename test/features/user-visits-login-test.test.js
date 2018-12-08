@@ -21,6 +21,15 @@ afterAll(() => {
 
 describe("User visits login page", () => {
   describe("renders login page", () => {
+
+     it("will display login in link in header before loging in that takes you to login page", async () =>{
+      await page.goto("http://localhost:3000/")
+      await page.waitForSelector("#table")
+      await page.click("#login-link")
+      await page.waitForSelector("#login-form")
+      expect (page.url()).toBe("http://localhost:3000/account/login")
+    }),
+
     it("can enter credentials and submit login", async () =>{
       await page.goto("http://localhost:3000/account/login")
       await page.waitForSelector("#login-form")
@@ -32,7 +41,10 @@ describe("User visits login page", () => {
       await page.waitForNavigation({waitUntil: 'load'})
       const text = await page.$eval('h1', el => el.innerText)
       expect(text).toBe("Square")
+      const firstName = await page.$eval('.welcome', el=>el.innerText)
+      expect(firstName.toLowerCase()).toContain('christopher')
     },100000),
+
     it("will stay on same page and show error if incorrect login isentered", async () => {
       await page.goto("http://localhost:3000/account/login")
       await page.waitForSelector("#login-form")
@@ -44,8 +56,7 @@ describe("User visits login page", () => {
       await page.waitForSelector('strong')
       const text = await page.$eval('strong', el => el.innerText)
       expect (text).toContain("Error")
-
     },100000)
-    
+           
   })
 })

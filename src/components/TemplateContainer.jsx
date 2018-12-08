@@ -10,11 +10,18 @@ class TemplateContainer extends Component{
   }
 
   render(){
+    const {authentication} = this.props
+
     return (
-      <Template />
+      <Template authentication={authentication}/>
     );
   }
 }
 
+function mapStateToProps(state) {
+  return{
+    authentication: state.authentication
+  }
+}
 
-export default connect()(TemplateContainer);
+export default connect(mapStateToProps)(TemplateContainer);
