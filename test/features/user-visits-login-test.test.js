@@ -30,7 +30,7 @@ describe("User visits login page", () => {
       expect (page.url()).toBe("http://localhost:3000/account/login")
     }),
 
-    it("can enter credentials and submit login", async () =>{
+    it("can enter credentials and displays welcome message in header after login", async () =>{
       await page.goto("http://localhost:3000/account/login")
       await page.waitForSelector("#login-form")
       await page.click("input[name=userEmail]")
@@ -45,7 +45,7 @@ describe("User visits login page", () => {
       expect(firstName.toLowerCase()).toContain('christopher')
     },100000),
 
-    it("will stay on same page and show error if incorrect login isentered", async () => {
+    it("will stay on same page and show error if incorrect login is entered", async () => {
       await page.goto("http://localhost:3000/account/login")
       await page.waitForSelector("#login-form")
       await page.click("input[name=userEmail]")
