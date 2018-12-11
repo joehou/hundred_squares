@@ -18,12 +18,17 @@ export default class Header extends React.Component {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this)
-
+    this.logOutClick = this.logOutClick.bind(this)
     this.state = {
       isOpen: false,
     };
   }
-
+   
+  logOutClick(e) {
+    e.preventDefault()
+    const { logUserOutFunction } = this.props
+    logUserOutFunction()
+  }
 
   toggleNavbar() {
     this.setState({

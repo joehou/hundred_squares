@@ -1,7 +1,7 @@
 import React, {Component}from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { logUserIn } from '../../actions/authentication';
+import { logUserIn, logUserOut} from '../../actions/authentication';
 
 import LoginPage from './LoginPage';
 
@@ -10,12 +10,18 @@ class LoginPageContainer extends Component {
   constructor(props){
     super(props)
 
-    this.logUserInFunction = this.logUserInFunction.bind(this);
+    this.logUserInFunction = this.logUserInFunction.bind(this)
+    this.logUserOutFunction = this.logUserOutFunction.bind(this)
   }
 
   logUserInFunction(userData) {
     const { dispatch } = this.props;
     dispatch(logUserIn(userData));
+  }
+
+  logUserOutFunction() {
+    const {dispatch} = this.props
+    dispatch(logUserOut)
   }
 
   render(){
@@ -28,7 +34,7 @@ class LoginPageContainer extends Component {
     }
     return (
       <div>
-        <LoginPage loginFunction={this.logUserInFunction} />
+        <LoginPage loginFunction={this.logUserInFunction} logoutFunction={this.logUserOutFunction} />
       </div>
     );
   }

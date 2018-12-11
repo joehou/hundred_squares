@@ -14,10 +14,20 @@ beforeAll(async () => {
         },100000);
     page = await browser.newPage();
     await page.setViewport({ width, height });
-});
+})
 afterAll(() => {
     browser.close();
-});
+})
+
+var logInToPage = async (username,password) => {
+      await page.goto("http://localhost:3000/account/login")
+      await page.waitForSelector("#login-form")
+      await page.click("input[name=userEmail]")
+      await page.type("input[name=userEmail]", username)
+      await page.click("input[name=userPassword]")
+      await page.type("input[name=userPassword]", password)  
+      await page.click("button[name=login]")
+}
 
 describe("User visits login page", () => {
   describe("renders login page", () => {
@@ -28,31 +38,25 @@ describe("User visits login page", () => {
       await page.click("#login-link")
       await page.waitForSelector("#login-form")
       expect (page.url()).toBe("http://localhost:3000/account/login")
-    }),
-
-    it("can enter credentials and displays welcome message in header after login", async () =>{
-      await page.goto("http://localhost:3000/account/login")
-      await page.waitForSelector("#login-form")
-      await page.click("input[name=userEmail]")
-      await page.type("input[name=userEmail]", "tyranthou@gmail.com")
-      await page.click("input[name=userPassword]")
-      await page.type("input[name=userPassword]", "Yarpyarp1") 
-      await page.click("button[name=login]")
+    },100000),
+    it("can enter credentials and displays welcome message and logout link in header after login", async () =>{
+      await logInToPage("tyranthou@gmail.com","Yarpyarp1")
       await page.waitForNavigation({waitUntil: 'load'})
       const text = await page.$eval('h1', el => el.innerText)
       expect(text).toBe("Square")
-      const firstName = await page.$eval('.welcome', el=>el.innerText)
-      expect(firstName.toLowerCase()).toContain('christopher')
+      const welcomeMessage = await page.$eval('.welcome', el=>el.innerText)
+      expect(welcomeMessage.toLowerCase()).toContain('christopher')
+      expect(welcomeMessage).toContain('Log Out')
     },100000),
-
+    it("Will navigate to homepage and display log in link in headeder after logout", async () => {
+      await logInToPage("tyranthou@gmail.com","Yarpyarp1")
+      await page.waitForNavigation({waitUntil: 'load'})
+      await page.click(".welcome a")
+      //      await page.waitForNavigation({waitUntil: 'load'})
+      expect (page.url()).toBe("http://localhost:3000/")
+    },100000), 
     it("will stay on same page and show error if incorrect login is entered", async () => {
-      await page.goto("http://localhost:3000/account/login")
-      await page.waitForSelector("#login-form")
-      await page.click("input[name=userEmail]")
-      await page.type("input[name=userEmail]","tyranthou@gmail.com")
-      await page.click("input[name=userPassword]")
-      await page.type("input[name=userPassword]","BADPASSWORDBAD")
-      await page.click("button[name=login]")
+      await logInToPage("tyranthou@gmail.com", "BadBADpassword")
       await page.waitForSelector('strong')
       const text = await page.$eval('strong', el => el.innerText)
       expect (text).toContain("Error")

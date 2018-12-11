@@ -12,18 +12,21 @@ mongoose.Promise=global.Promise
 // POST to /login
 router.post('/login', async (req,res) => {
   const query = User.findOne({ email: req.body.email })
-  console.log(req.body.email)
   const foundUser = await query.exec()
   // if the user exists they'll have an username so lets add that to our body and authenticate with passport
   if (foundUser) { req.body.username = foundUser.username } 
   passport.authenticate('local')(req,res, ()=> {
     if (req.user) {
-      console.log('founduser')
       return res.send(JSON.stringify(req.user)) 
     }
-    console.log('error loggingin')
     return res.send(JSON.stringify({ error: 'Thrre was an error loggin in'}))
   })
+})
+
+// GET to /logout
+router.get('/logout', (req,res) => {
+  req.logout()
+  res.send(JSON.stringify(req.user))
 })
 
 // POST to /register
@@ -37,7 +40,6 @@ router.post('/register', (req, res) => {
   });
   User.register(newUser, req.body.password, (err,user) => {
     if (err){
-      console.log(err)
       return res.status(400).send(JSON.stringify({ error: err}))
     }
     return res.status(201).send(JSON.stringify(user))
