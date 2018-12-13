@@ -39,6 +39,23 @@ class Blocks extends Component {
     return initials;
   };
 
+  blocksMouseOut() {
+    document.querySelectorAll('table td').forEach( block => {
+      if (block.style.backgroundColor == 'lightblue'){
+        block.style.backgroundColor = 'white'   
+      }
+    })
+  }
+
+  blockHover(selectedBlock){
+    // console.log(selectedBlock)
+    document.querySelectorAll('table td').forEach( block => {
+      if (block.id < selectedBlock.id && block.childNodes.length == 0 )
+      {
+        block.style.backgroundColor = "lightblue"
+      }
+    })
+  }
 
   blockClicked(selectedBlock){
     let startBlock=this.props.events.reduce(function(prev, curr) {
@@ -189,7 +206,10 @@ class Blocks extends Component {
 
           </div>
         </Modal>
-        <table id="table">
+        <table 
+          id="table"
+          onMouseOut = { _=> this.blocksMouseOut() }
+        >
           <tbody>
           {size.map((row,r)=>
             <tr key={r}>
@@ -199,6 +219,7 @@ class Blocks extends Component {
                   <td id={block.id}
                       className={block.id >= this.state.startHighlightedCell && block.id <= this.state.endHighlightedCell? "selected":""}
                       onClick={_=>this.blockClicked(block)}
+                      onMouseOver= {_=> this.blockHover(block)}
                       key={block.id}
                   >
                     {this.props.events.map( event=>{
