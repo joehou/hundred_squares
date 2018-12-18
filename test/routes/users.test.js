@@ -1,10 +1,10 @@
 const request = require('supertest')
 
 describe("The User Api /api/users", () =>{
-  describe("post" , () => {
+  describe("get" , () => {
       it("returns a list of all users with firsrt user as Admin in JSON", async () => {
 	const res = await request("http://localhost:3000")
-	  .get('/users/list')
+	  .get('/users/')
 	  .expect(200)
 	  .expect('Content-Type', /json/);
       expect(Array.isArray(res.body)).toBe(true)

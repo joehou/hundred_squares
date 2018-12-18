@@ -128,6 +128,57 @@ class Blocks extends Component {
     ):(
       <div>
         <h1>Square</h1>
+        <table 
+          id="table"
+          onMouseOut = { _=> this.blocksMouseOut() }
+        >
+          <tbody>
+          {size.map((row,r)=>
+            <tr key={r}>
+              {size.map( (col,c)=>{
+                let block=blocks[r*10+c]
+                return(
+                  <td id={block.id}
+                      className={block.id >= this.state.startHighlightedCell && block.id <= this.state.endHighlightedCell? "selected":""}
+                      onClick={_=>this.blockClicked(block)}
+                      onMouseOver= {_=> this.blockHover(block)}
+                      key={block.id}
+                  >
+                    {this.props.events.map( event=>{
+                        if (block.id == event.startBlock && event.endBlock ==event.startBlock)
+                          return (
+                            <div className="one-cell-event">
+                              {this.renderEventSingle(event)}
+                            </div>
+                           )
+                        else if (block.id == event.startBlock && event.endBlock ==event.startBlock+1)
+                          return (
+                            <div className="two-cell-event">
+                              {this.renderEventSingle(event)}
+                            </div>
+                          )
+                        else if (block.id == event.endBlock && event.endBlock ==event.startBlock+1)
+                          return (
+                            <div className="two-cell-event">
+                              {this.renderEventEnd(event)}
+                            </div>
+                          )
+                        else if (block.id == event.startBlock && event.endBlock >event.startBlock+1)
+                          return (
+                            <div className="multi-cell-event">
+                              {this.renderEventStart(event)}
+                            </div>
+                          )
+                        else if (block.id >= event.startBlock && block.id<=event.endBlock)
+                          return this.renderEvent(event)
+                      }
+                    )}
+                  </td>)
+              })}
+            </tr>
+          )}
+          </tbody>
+        </table>
         <Modal
           appElement={document.getElementById('app')}
           className='modal-old'
@@ -206,57 +257,6 @@ class Blocks extends Component {
 
           </div>
         </Modal>
-        <table 
-          id="table"
-          onMouseOut = { _=> this.blocksMouseOut() }
-        >
-          <tbody>
-          {size.map((row,r)=>
-            <tr key={r}>
-              {size.map( (col,c)=>{
-                let block=blocks[r*10+c]
-                return(
-                  <td id={block.id}
-                      className={block.id >= this.state.startHighlightedCell && block.id <= this.state.endHighlightedCell? "selected":""}
-                      onClick={_=>this.blockClicked(block)}
-                      onMouseOver= {_=> this.blockHover(block)}
-                      key={block.id}
-                  >
-                    {this.props.events.map( event=>{
-                        if (block.id == event.startBlock && event.endBlock ==event.startBlock)
-                          return (
-                            <div className="one-cell-event">
-                              {this.renderEventSingle(event)}
-                            </div>
-                           )
-                        else if (block.id == event.startBlock && event.endBlock ==event.startBlock+1)
-                          return (
-                            <div className="two-cell-event">
-                              {this.renderEventSingle(event)}
-                            </div>
-                          )
-                        else if (block.id == event.endBlock && event.endBlock ==event.startBlock+1)
-                          return (
-                            <div className="two-cell-event">
-                              {this.renderEventEnd(event)}
-                            </div>
-                          )
-                        else if (block.id == event.startBlock && event.endBlock >event.startBlock+1)
-                          return (
-                            <div className="multi-cell-event">
-                              {this.renderEventStart(event)}
-                            </div>
-                          )
-                        else if (block.id >= event.startBlock && block.id<=event.endBlock)
-                          return this.renderEvent(event)
-                      }
-                    )}
-                  </td>)
-              })}
-            </tr>
-          )}
-          </tbody>
-        </table>
       </div>
     )
 
