@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const User = require('../../models/user')
+const Grid = require('../../models/grid')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -14,11 +15,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', async( req, res, next) =>{
-  User.findOne( {username:req.params.id}, (err, user) => {
-    if (err){
+  User.findOne( {username:req.params.id}).populate({path:'grids', model: Grid}).exec( (err,user) =>{
+    if(err){
       res.send(err)
     }
-    res.json(user)
+    res.send(user)
   })
 })
 

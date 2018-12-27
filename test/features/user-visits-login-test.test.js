@@ -30,7 +30,6 @@ var logInToPage = async (username,password) => {
 }
 
 describe("User visits login page", () => {
-  describe("renders login page", () => {
 
      it("will display login in link in header before loging in that takes you to login page", async () =>{
       await page.goto("http://localhost:3000/")
@@ -62,5 +61,4 @@ describe("User visits login page", () => {
       expect (text).toContain("Error")
     },100000)
            
-  })
 })

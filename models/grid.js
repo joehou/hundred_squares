@@ -3,9 +3,24 @@ const Schema = mongoose.Schema
 const EventSchema = require('./event')
 
 const Grid = new Schema( {
-  gridName: String, 
-  description: String,
-  events: [EventSchema]
+  gridName: { type: String, default: 'My Day'}, 
+  description: { type: String, default: 'My first grid'},
+  events: [{type: EventSchema}]
+})
+
+//use pre save hook to load "My Starter Event"
+Grid.pre("save", function(next){
+  if (!this.events || this.events.length === 0 ){
+    this.events = []
+    this.events.push({
+      eventName: 'My First Event',
+      eventColor: 'LightPink',
+      eventFontColor: 'Black',
+      startBlock: 0,
+      endBlock: 7
+    })
+  }
+  next()
 })
 
 module.exports = mongoose.model('grid',Grid)

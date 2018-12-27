@@ -8,7 +8,7 @@
     "start-dev": "SET NODE_ENV=development&& node ./bin/www",
     "start-dev-mac": "NODE_ENV=development node ./bin/www",
     "build-prod": "NODE_ENV=production&&webpack -p --config webpack.config.babel.js",
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "dependencies": {
     "availity-reactstrap-validation": "^2.0.2",

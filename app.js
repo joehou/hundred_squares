@@ -24,6 +24,7 @@ const webpackConfig = require('./webpack.config.babel');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
+
 const authentication = require('./routes/api/authentication')
 var users = require('./routes/api/users');
 var index = require('./routes/index');
