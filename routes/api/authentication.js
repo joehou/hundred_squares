@@ -4,6 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const User = require('../../models/user.js')
+const Grid = require('../../models/grid')
 
 const router = express.Router()
 
@@ -42,8 +43,14 @@ router.post('/register', (req, res) => {
     if (err){
       return res.status(400).send(JSON.stringify({ error: err}))
     }
-    return res.status(201).send(JSON.stringify(user))
+    //If the request does not come with a blank grid we are going to create a "Starter Grid" and add it to the user
+    var grid = new Grid()
+    grid.save().then( _ => {
+      user.addGrid(grid._id)
+      return res.status(201).send(JSON.stringify(user))
+    })
+    //else save the grid from the request and add to user
   })
-});
+})
 
 module.exports = router 

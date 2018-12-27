@@ -63,7 +63,7 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 }
 
-app.use('/users', users);
+app.use('/api/users', users);
 app.use('/api/authentication', authentication)
 app.use('/*', index);
 
