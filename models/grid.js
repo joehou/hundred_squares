@@ -3,8 +3,8 @@ const Schema = mongoose.Schema
 const EventSchema = require('./event')
 
 const Grid = new Schema( {
-  gridName: { type: String, default: 'My Day'}, 
-  description: { type: String, default: 'My first grid'},
+  gridName: { type: String}, 
+  description: { type: String},
   events: [{type: EventSchema}]
 })
 

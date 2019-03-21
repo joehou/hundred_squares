@@ -9,8 +9,11 @@ const User = require('../../models/user')
 
 describe("Server Path: /api/authentication/register", () => {
   beforeAll( () => { connectDatabase()})
-  afterAll(    disconnectDatabase)
-  describe("POST", () => {
+  afterAll(  ()=>{ 
+    mongoose.disconnect()
+    app.close()
+  })
+  describe("POST", async() => {
     const newUser = buildUserRegistration()
 
 

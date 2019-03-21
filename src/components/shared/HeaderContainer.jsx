@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import {connect} from 'react-redux'
 
 import {logUserOut} from '../../actions/authentication'
+import {resetGrid} from '../../actions/index'
 import Header from './Header'
 
 class HeaderContainer extends Component {
@@ -17,6 +18,7 @@ class HeaderContainer extends Component {
   }
 
   render (){
+    console.log('rendering headercontainer')
     const {authentication} =this.props
     return(
       <Header authentication = {authentication} logUserOutFunction={this.logUserOutFunction} />

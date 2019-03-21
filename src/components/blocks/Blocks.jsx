@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {Route, Switch,Link,withRouter} from 'react-router-dom'
 import Modal from 'react-modal'
+import {Container, Row, Col } from 'reactstrap'
 
 import * as actions from '../../actions'
 
@@ -19,8 +20,10 @@ class Blocks extends Component {
   }
   
   componentWillMount() {
+    console.log('blocks component will mount')
     Modal.setAppElement('body')
   }
+
 
   convertMinsToHrsMins(minutes) {
     var h = Math.floor(minutes / 60);
@@ -82,8 +85,8 @@ class Blocks extends Component {
 
   componentDidMount() {
     this.props.resetEditEvent()
-    this.props.loadEvents()
-    this.props.loadBlocks()
+    //   this.props.loadEvents()
+    //   this.props.loadBlocks()
 
   }
 
@@ -126,8 +129,11 @@ class Blocks extends Component {
     return !this.props.blocksAll || this.props.blocksAll.length==0 ? (
       <div>Loading</div>
     ):(
-      <div>
-        <h1>Square</h1>
+      <div id="grid">
+        <div className="row justify-content-center">
+          <h1 className="gridName">{this.props.grid.gridName}</h1>
+        </div>
+        <div className="row justify-content-center">
         <table 
           id="table"
           onMouseOut = { _=> this.blocksMouseOut() }
@@ -258,6 +264,7 @@ class Blocks extends Component {
           </div>
         </Modal>
       </div>
+    </div>
     )
 
   }
@@ -265,9 +272,9 @@ class Blocks extends Component {
 
 function mapStateToProps({events,blocks}){
   return {
-    events: events.events,
+    //    events: events.events,
     currentEvent: events.editEvent,
-    blocksAll: events.blocks
+    //blocksAll: events.blocks
   }
 }
 

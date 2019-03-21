@@ -14,6 +14,7 @@ export default function reducer(state=initialState, action) {
     case 'AUTHENTICATION_SESSION_CHECK_FAILURE':
     case 'AUTHENTICATION_LOGOUT_SUCCESS':
     case 'AUTHENTICATION_REGISTRATION_FAILURE': {
+      console.log('in auth reducrer after logout')
       const newState = Object.assign({}, initialState);
       return newState;
     }

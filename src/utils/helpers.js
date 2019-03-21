@@ -43,7 +43,7 @@ export function getInitialBlocks(){
   let initialEvents=[
     {
       eventID:1,
-      eventName: "Shower with dog",
+      eventName: "Shower with dAg",
       eventColor: "#42AB9E",
       eventFontColor: "white",
       startBlock: 0,
@@ -81,8 +81,11 @@ export function getInitialBlocks(){
 }
 
 
-export function getDummyEvents(){
-  return [
+export function getDummyGrid(){
+  return {
+  gridName: "My Day",
+  gridTitle: "my title",
+  events:[
   {
     eventID:1,
     eventName: "Shower with dog",
@@ -107,5 +110,6 @@ export function getDummyEvents(){
     startBlock:13,
     endBlock:17
   }
-]
+  ]
+}
 }
