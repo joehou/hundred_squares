@@ -4,6 +4,9 @@ export const loginFailure = (error) => ({type: 'AUTHENTICATION_LOGIN_FAILURE',er
 export const loginSuccess = (json) => ({type: 'AUTHENTICATION_LOGIN_SUCCESS',json})
 export const logoutSuccess =() => ({type: 'AUTHENTICATION_LOGOUT_SUCCESS'})
 export const logoutFailure = (json) => ({type: 'AUTHENTICATION_LOGOUT_FAILURE',json})
+export const sessionCheckFailure = () => ({type: 'AUTHENTICATION_SESSION_CHECK_FAILURE'});
+export const sessionCheckSuccess = json => ({type: 'AUTHENTICATION_SESSION_CHECK_SUCCESS', json});
+
 
 export function logUserIn(userData) {
   return async (dispatch) => {
@@ -52,5 +55,50 @@ export function logUserOut() {
       }
     })
   }
-  
 }
+
+export function checkSession() {
+  return async (dispatch) => {
+    // contact the API
+    await fetch(
+      // where to contact
+      '/api/authentication/checksession',
+      // what to send
+      {
+        method: 'GET',
+        credentials: 'same-origin',
+      },
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+        return null;
+      })
+      .then((json) => {
+        if (json.username) {
+          dispatch(sessionCheckSuccess(json));
+          dispatch(reLoadUserEvents())
+        }else{
+          return dispatch(sessionCheckFailure());
+        }
+      })
+      .catch((error) => dispatch(sessionCheckFailure(error)));
+      console.log("checking session")
+  }
+}
+export function reLoadUserEvents(user){
+  console.log(`in load user event action ${user}`)
+  return (dispatch)=>{
+    return fetchRecentGrid(user).then(grid => {
+    console.log(grid.events)
+      dispatch({
+      type: types.LOAD_EVENTS_SUCCESS,
+      grid: grid 
+    })
+  }) 
+  }
+ 
+}
+
+

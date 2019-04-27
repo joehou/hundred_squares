@@ -1,14 +1,37 @@
-import {getDummyEvents,getInitialBlocks} from "../utils/helpers";
+import {getDummyGrid,getInitialBlocks} from "../utils/helpers";
+import {fetchRecentGrid} from "../utils/api"
 import * as types from '../actions/types'
 
-export function loadEvents(){
+export function loadStarterGrid(){
   return (dispatch)=>{
     return dispatch({
       type: types.LOAD_EVENTS_SUCCESS,
-      events: getDummyEvents()
+      grid: getDummyGrid()
     })
   }
 }
+
+export function ResetGrid(){
+  return dispatch =>
+    dispatch({
+      type:types.RESET_GRID
+    })
+}
+
+export function loadUserEvents(user){
+  console.log(`in load user event action ${user}`)
+  return (dispatch)=>{
+    return fetchRecentGrid(user).then(grid => {
+    console.log(grid.events)
+      dispatch({
+      type: types.LOAD_EVENTS_SUCCESS,
+      grid: grid 
+    })
+  }) 
+  }
+ 
+}
+
 
 export function loadBlocks(){
   return(dispatch) =>{
@@ -18,6 +41,7 @@ export function loadBlocks(){
     })
   }
 }
+
 
 export function resetEditEvent(){
   return dispatch =>

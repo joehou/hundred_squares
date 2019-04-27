@@ -1,16 +1,29 @@
 import * as types from '../actions/types'
+import {getDummyGrid,getInitialBlocks} from "../utils/helpers";
+
+
+const initialGrid=getDummyGrid()
 
 export default function reducer( state =initialState,action) {
   switch(action.type){
+    case 'AUTHENTICATION_LOGOUT_SUCCESS':
+      console.log('in event reducrer after logout')
+      return{
+        ...state,
+        grid: initialGrid,
+        events: initialGrid.events
+      }
     case types.LOAD_BLOCKS_SUCCESS:
       return{
         ...state,
         blocks: action.blocks
       }
     case types.LOAD_EVENTS_SUCCESS:
+      console.log(`grid in action ${action.grid}`)
       return{
         ...state,
-        events: action.events
+        grid: action.grid,
+        events: action.grid.events,
       }
     case types.RESET_EDIT_EVENT:
       return {

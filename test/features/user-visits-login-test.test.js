@@ -8,7 +8,7 @@ const height = 1080
 
 beforeAll(async () => {
     browser = await puppeteer.launch({
-          headless: false,
+          headless: true,
           slowMo: 80, 
           args: [`--window-size=${width},${height}`]
         },100000);
@@ -42,16 +42,15 @@ describe("User visits login page", () => {
       await logInToPage("tyranthou@gmail.com","Yarpyarp1")
       await page.waitForNavigation({waitUntil: 'load'})
       const text = await page.$eval('h1', el => el.innerText)
-      expect(text).toBe("Square")
       const welcomeMessage = await page.$eval('.welcome', el=>el.innerText)
       expect(welcomeMessage.toLowerCase()).toContain('christopher')
       expect(welcomeMessage).toContain('Log Out')
     },100000),
     it("Will navigate to homepage and display log in link in headeder after logout", async () => {
       await logInToPage("tyranthou@gmail.com","Yarpyarp1")
-      await page.waitForNavigation({waitUntil: 'load'})
-      await page.click(".welcome a")
-      //      await page.waitForNavigation({waitUntil: 'load'})
+      await page.waitForSelector(".welcome a")
+      await page.click(".welcome a"),
+      page.waitForNavigation({waitUntil: 'load'})
       expect (page.url()).toBe("http://localhost:3000/")
     },100000), 
     it("will stay on same page and show error if incorrect login is entered", async () => {

@@ -24,6 +24,14 @@ router.post('/login', async (req,res) => {
   })
 })
 
+// GET to /checksession
+router.get('/checksession', (req, res) => {
+ if (req.user) {
+   return res.send(JSON.stringify(req.user));
+ }
+ return res.send(JSON.stringify({}));
+});
+
 // GET to /logout
 router.get('/logout', (req,res) => {
   req.logout()

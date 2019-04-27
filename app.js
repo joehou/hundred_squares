@@ -8,10 +8,10 @@ const expressSession = require('express-session');
 // Express Session
 const sessionValues = {
   cookie: {},
-    name: 'sessionId',
-    resave: false,
-    saveUninitialized: true,
-    secret: appConfig.expressSession.secret,
+  name: 'sessionId',
+  resave: false,
+  saveUninitialized: true,
+  secret: appConfig.expressSession.secret,
 };
 const favicon = require('serve-favicon');
 const LocalStrategy = require('passport-local').Strategy;
@@ -28,6 +28,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const authentication = require('./routes/api/authentication')
 var users = require('./routes/api/users');
 var index = require('./routes/index');
+var grids = require('./routes/api/grids');
 
 var app = express();
 mongoose.connect('mongodb://localhost/hundredsquares')
@@ -66,6 +67,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use('/api/users', users);
 app.use('/api/authentication', authentication)
+//app.use('/api/grids', grids);
 app.use('/*', index);
 
 //Configure passport

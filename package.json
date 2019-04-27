@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start-prod": "NODE_ENV=production&& node ./bin/www",
+    "start-prod": "cross-env NODE_ENV=production node ./bin/www",
     "start-dev": "SET NODE_ENV=development&& node ./bin/www",
-    "start-dev-mac": "NODE_ENV=development node ./bin/www",
+    "start-dev-mac": "cross-env NODE_ENV=production node ./bin/www",
+    "testing": "cross-env NODE_ENV=test node ./bin/www",
     "build-prod": "NODE_ENV=production&&webpack -p --config webpack.config.babel.js",
-    "test": "jest --verbose"
+    "test": "cross-env NODE_ENV=test jest --verbose"
   },
   "dependencies": {
     "availity-reactstrap-validation": "^2.0.2",
@@ -25,6 +26,7 @@
     "compression": "1.7.1",
     "compression-webpack-plugin": "1.0.1",
     "cookie-parser": "~1.4.3",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.10",
     "debug": "~2.6.9",
     "disconnect": "1.2.1",

@@ -1,8 +1,11 @@
 var express = require('express');
-var router = express.Router();
-
 const User = require('../../models/user')
 const Grid = require('../../models/grid')
+
+var router = express.Router();
+var gridRouter = express.Router({mergeParams: true})
+
+// attach itemRouter as middle ware
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -12,9 +15,11 @@ router.get('/', function(req, res, next) {
     }
     res.json(users)
   })
-});
+})
 
+// Get user info
 router.get('/:id', async( req, res, next) =>{
+  console.log(`the logged in users is ${req.user}`)
   User.findOne( {username:req.params.id}).populate({path:'grids', model: Grid}).exec( (err,user) =>{
     if(err){
       res.send(err)
@@ -22,5 +27,31 @@ router.get('/:id', async( req, res, next) =>{
     res.send(user)
   })
 })
+
+//get user grid
+gridRouter.get('/', async( req,res,next) => {
+  res.status(200)
+  .send('at root of grid')
+})
+
+//get user's grid by ID
+gridRouter.get('/:gridId', async( req,res,next) => {
+  User.findOne( {username:req.params.id},'grids').populate({path:'grids', model: Grid}).exec( (err,user) =>{
+    res.status(200)
+    .json(user.grids[0])
+  })
+})
+
+// get users most recent grid
+gridRouter.get('/recent', async( req,res,next) => {
+  User.findOne( {username:req.params.id},'grids').populate({path:'grids', model: Grid}).exec( (err,user) =>{
+    res.status(200)
+    .json(user.grids[0])
+  })
+})
+
+
+
+router.use('/:id/grids', gridRouter)
 
 module.exports = router;
