@@ -1,4 +1,4 @@
-
+import { fetchRecentGrid } from '../utils/api'
 export const loginAttempt = () => ({type: 'AUTHENTICATION_LOGIN_ATTEMPT'})
 export const loginFailure = (error) => ({type: 'AUTHENTICATION_LOGIN_FAILURE',error})
 export const loginSuccess = (json) => ({type: 'AUTHENTICATION_LOGIN_SUCCESS',json})
@@ -11,7 +11,7 @@ export const sessionCheckSuccess = json => ({type: 'AUTHENTICATION_SESSION_CHECK
 export function logUserIn(userData) {
   return async (dispatch) => {
     dispatch(loginAttempt())
-  
+
     await fetch(
       '/api/authentication/login',
       {
@@ -78,7 +78,7 @@ export function checkSession() {
       .then((json) => {
         if (json.username) {
           dispatch(sessionCheckSuccess(json));
-          dispatch(reLoadUserEvents())
+          //    dispatch(reLoadUserEvents())
         }else{
           return dispatch(sessionCheckFailure());
         }
@@ -87,18 +87,17 @@ export function checkSession() {
       console.log("checking session")
   }
 }
-export function reLoadUserEvents(user){
+
+export function reloadUserEvents(user){
   console.log(`in load user event action ${user}`)
   return (dispatch)=>{
     return fetchRecentGrid(user).then(grid => {
     console.log(grid.events)
       dispatch({
       type: types.LOAD_EVENTS_SUCCESS,
-      grid: grid 
+      grid: grid
     })
-  }) 
+  })
   }
- 
+
 }
-
-

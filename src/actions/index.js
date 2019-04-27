@@ -25,11 +25,11 @@ export function loadUserEvents(user){
     console.log(grid.events)
       dispatch({
       type: types.LOAD_EVENTS_SUCCESS,
-      grid: grid 
+      grid: grid
     })
-  }) 
+  })
   }
- 
+
 }
 
 
@@ -91,4 +91,18 @@ export function updateEvent(event){
       event
     })
   }
+}
+
+export function reloadUserEvents(user){
+  console.log(`in load user event action ${user}`)
+  return (dispatch)=>{
+    return fetchRecentGrid(user).then(grid => {
+    console.log(grid.events)
+      dispatch({
+      type: types.LOAD_EVENTS_SUCCESS,
+      grid: grid
+    })
+  })
+  }
+
 }

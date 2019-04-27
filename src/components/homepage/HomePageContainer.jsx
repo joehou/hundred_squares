@@ -11,10 +11,9 @@ class HomePageContainer extends Component {
   constructor(props){
     super(props)
   }
-
-  componentWillMount() {
+  componentDidMount() {
+    if (!this.props.authentication.isLoggedIn)
     this.props.resetEditEvent()
-    console.log(' not logged in user')
     this.props.loadStarterGrid()
     this.props.loadBlocks()
   }
@@ -24,7 +23,7 @@ class HomePageContainer extends Component {
         <Blocks grid= {this.props.grid} events = {this.props.events} blocksAll={this.props.blocksAll} />
     )
   }
-  
+
   render(){
     const { authentication } = this.props
      if (authentication.isLoggedIn) {
@@ -32,19 +31,16 @@ class HomePageContainer extends Component {
          <Redirect to="/dash" />
        );
      }
-    console.log(this.props.events) 
-    console.log(authentication.isLoggedIn) 
-    console.log(`this.props in render of homepage ${this.props.events}`) 
     return(
       <div>
         <Jumbotron>
           <h1 className="display-3">Hundred Blocks a Day</h1>
-          <p className="lead">1000 minutes a day in 100 10 minute blocks</p> 
+          <p className="lead">1000 minutes a day in 100 10 minute blocks</p>
           <hr className="my-2" />
           <p className="lead">Label groups of blocks by your daily activities to see how the precious 100 blocks of your day is being spent</p>
         </Jumbotron>
         Here we show starter grid for not logged in or rediret to a list of existing grids for current user
-        { this.props.events && this.props.events.length >0 ? this.renderBlocks(this.props.events, this.props.blocksAll) : <p>Not logged in</p>} 
+        { this.props.events && this.props.events.length >0 ? this.renderBlocks(this.props.events, this.props.blocksAll) : <p>Not logged in</p>}
        </div>
     )
   }
@@ -54,7 +50,7 @@ function mapStateToProps({events,blocks,authentication}){ return {
     grid: events.grid,
     events: events.events,
     blocksAll: events.blocks
- 
+
   }
 }
 
