@@ -9,6 +9,10 @@ class DashboardContainer extends Component {
     super(props)
   }
 
+  componentDidMount(){
+    this.props.resetEditEvent()
+    this.props.reloadUserEvents(this.props.authentication.username)
+  }
   render(){
     const {authentication} = this.props
     if (!authentication.isLoggedIn) {
@@ -24,4 +28,13 @@ class DashboardContainer extends Component {
   }
 }
 
-export default DashboardContainer
+function mapStateToProps({events,blocks,authentication}){ return {
+    grid: events.grid,
+    events: events.events,
+    blocksAll: events.blocks
+ 
+  }
+}
+
+
+export default connect(mapStateToProps,actions)(DashboardContainer)

@@ -59,8 +59,11 @@ export function logUserOut() {
 
 export function checkSession() {
   return async (dispatch) => {
+    // contact the API
     await fetch(
+      // where to contact
       '/api/authentication/checksession',
+      // what to send
       {
         method: 'GET',
         credentials: 'same-origin',
@@ -75,7 +78,7 @@ export function checkSession() {
       .then((json) => {
         if (json.username) {
           dispatch(sessionCheckSuccess(json));
-          //dispatch(reLoadUserEvents(json.username))
+          //    dispatch(reLoadUserEvents())
         }else{
           return dispatch(sessionCheckFailure());
         }
@@ -84,7 +87,8 @@ export function checkSession() {
       console.log("checking session")
   }
 }
-export function reLoadUserEvents(user){
+
+export function reloadUserEvents(user){
   console.log(`in load user event action ${user}`)
   return (dispatch)=>{
     return fetchRecentGrid(user).then(grid => {
