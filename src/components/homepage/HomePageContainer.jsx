@@ -50,7 +50,6 @@ function mapStateToProps({events,blocks,authentication}){ return {
     grid: events.grid,
     events: events.events,
     blocksAll: events.blocks
-
   }
 }
 

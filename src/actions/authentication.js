@@ -42,13 +42,14 @@ export function logUserIn(userData) {
 export function logUserOut() {
   return async (dispatch) => {
     await fetch(
-      '/api/authenticaiton/logout',
+      '/api/authentication/logout',
       {
         method: 'GET',
         credentials: 'same-origin'
       }
     ).then( (response) => {
       if (response.status ===200) {
+        console.log('action logout')
         dispatch(logoutSuccess())
       }else{
         dispatch( logoutFailure(new Error(response.status)))

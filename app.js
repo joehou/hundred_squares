@@ -25,7 +25,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
 
-const authentication = require('./routes/api/authentication')
+var authentication = require('./routes/api/authentication')
 var users = require('./routes/api/users');
 var index = require('./routes/index');
 var grids = require('./routes/api/grids');
@@ -65,8 +65,8 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 }
 
-app.use('/api/users', users);
 app.use('/api/authentication', authentication)
+app.use('/api/users', users);
 //app.use('/api/grids', grids);
 app.use('/*', index);
 

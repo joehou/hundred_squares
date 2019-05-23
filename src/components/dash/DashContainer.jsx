@@ -10,9 +10,17 @@ class DashboardContainer extends Component {
   }
 
   componentDidMount(){
-   // this.props.resetEditEvent()
-   // this.props.reloadUserEvents(this.props.authentication.username)
+    this.props.resetEditEvent()
+    console.log(this.props.authentication.username)
+    this.props.reloadUserEvents(this.props.authentication.username)
   }
+
+  renderBlocks(){
+    return (
+        <Blocks grid= {this.props.grid} events = {this.props.events} blocksAll={this.props.blocksAll} />
+    )
+  }
+
   render(){
     const {authentication} = this.props
     if (!authentication.isLoggedIn) {
@@ -23,9 +31,16 @@ class DashboardContainer extends Component {
     return(
       <div>
         <h2>My dash</h2>
+        { this.props.events && this.props.events.length >0 ? this.renderBlocks(this.props.events, this.props.blocksAll) : <p>Not logged in</p>}
       </div>
     )
   }
 }
 
-export default DashboardContainer
+function mapStateToProps({events,blocks,authenticaion}){  return {
+    grid: events.grid,
+    events: events.events,
+    blocksAll: events.blocks
+}
+}
+export default connect(mapStateToProps,actions)(DashboardContainer)
