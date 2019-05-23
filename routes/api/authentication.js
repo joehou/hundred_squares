@@ -12,7 +12,6 @@ mongoose.Promise=global.Promise
 
 // POST to /login
 router.post('/login', async (req,res) => {
-  console.log('logging in user')
   const query = User.findOne({ email: req.body.email })
   const foundUser = await query.exec()
   // if the user exists they'll have an username so lets add that to our body and authenticate with passport
@@ -21,7 +20,7 @@ router.post('/login', async (req,res) => {
     if (req.user) {
       return res.send(JSON.stringify(req.user))
     }
-    return res.send(JSON.stringify({ error: 'Thrre was an error loggin in'}))
+    return res.send(JSON.stringify({ error: 'There was an error logging in'}))
   })
 })
 
@@ -39,7 +38,6 @@ router.get('/checksession', (req, res) => {
 
 // GET to /logout
 router.get('/logout', (req,res) => {
-    console.log("logging out route")
     req.session.destroy( (err)=> {
         if (err) return next (err)
         req.logout()

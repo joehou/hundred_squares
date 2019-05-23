@@ -43,13 +43,14 @@ describe("User visits login page", () => {
       await page.waitForNavigation({waitUntil: 'load'})
       const text = await page.$eval('h1', el => el.innerText)
       const welcomeMessage = await page.$eval('.welcome', el=>el.innerText)
-      expect(welcomeMessage.toLowerCase()).toContain('john20')
+      expect(welcomeMessage.toLowerCase()).toContain('')
       expect(welcomeMessage).toContain('Log Out')
+      await page.click(".welcome a")
     },100000),
     it("Will navigate to homepage and display log in link in headeder after logout", async () => {
       await logInToPage("JohnDough20@test.com","Yarpyarp1")
       await page.waitForSelector(".welcome a")
-      await page.click(".welcome a"),
+      await page.click(".welcome a")
       page.waitForNavigation({waitUntil: 'load'})
       expect (page.url()).toBe("http://localhost:3000/")
     },100000),
