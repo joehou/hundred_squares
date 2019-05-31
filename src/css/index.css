@@ -17,7 +17,6 @@ table td {
 table {
   border-collapse: collapse;
   background-color:white;
-  margin-left:100px;
   overflow: hidden;
 }
 td.selected {
