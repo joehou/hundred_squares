@@ -18,7 +18,7 @@ class Blocks extends Component {
       endHighlightedCell: null
       }
   }
-  
+
   componentWillMount() {
     console.log('blocks component will mount')
     Modal.setAppElement('body')
@@ -45,7 +45,7 @@ class Blocks extends Component {
   blocksMouseOut() {
     document.querySelectorAll('table td').forEach( block => {
       if (block.style.backgroundColor == 'lightblue'){
-        block.style.backgroundColor = 'white'   
+        block.style.backgroundColor = 'white'
       }
     })
   }
@@ -53,7 +53,7 @@ class Blocks extends Component {
   blockHover(selectedBlock){
     // console.log(selectedBlock)
     document.querySelectorAll('table td').forEach( block => {
-      if (block.id < selectedBlock.id && block.childNodes.length == 0 )
+      if (block.id <= selectedBlock.id && block.childNodes.length == 0 )
       {
         block.style.backgroundColor = "lightblue"
       }
@@ -134,7 +134,7 @@ class Blocks extends Component {
           <h1 className="gridName">{this.props.grid.gridName}</h1>
         </div>
         <div className="row justify-content-center">
-        <table 
+        <table
           id="table"
           onMouseOut = { _=> this.blocksMouseOut() }
         >
