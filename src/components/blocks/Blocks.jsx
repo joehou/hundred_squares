@@ -51,7 +51,6 @@ class Blocks extends Component {
   }
 
   blockHover(selectedBlock){
-    // console.log(selectedBlock)
     document.querySelectorAll('table td').forEach( block => {
       if (block.id <= selectedBlock.id && block.childNodes.length == 0 )
       {
@@ -142,7 +141,7 @@ class Blocks extends Component {
           {size.map((row,r)=>
             <tr key={r}>
               {size.map( (col,c)=>{
-                let block=blocks[r*10+c]
+                var block=blocks[r*10+c]
                 return(
                   <td id={block.id}
                       className={block.id >= this.state.startHighlightedCell && block.id <= this.state.endHighlightedCell? "selected":""}

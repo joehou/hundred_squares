@@ -39,7 +39,7 @@ function createBlock (number){
 
 export function getInitialBlocks(){
   const initialBlocks=[]
-  
+
   let initialEvents=[
     {
       eventID:1,
@@ -58,7 +58,7 @@ export function getInitialBlocks(){
       endBlock:12
     },
     {
-      eventID:2,
+      eventID:3,
       eventName:"Study Science",
       eventColor:"#FEF7C1",
       eventFontColor: "darkgray",
@@ -69,7 +69,7 @@ export function getInitialBlocks(){
   for (var i = 0; i <= 100; i++) {
     initialBlocks.push(createBlock(i));
   }
-  
+
   initialEvents =initialEvents.map(event =>{
       for (i= event.startBlock;i <= event.endBlock;i++ )
       {
@@ -103,7 +103,7 @@ export function getDummyGrid(){
     endBlock:12
   },
   {
-    eventID:2,
+    eventID:3,
     eventName:"Study Science",
     eventColor:"#FEF7C1",
     eventFontColor: "darkgray",
