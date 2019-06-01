@@ -84,8 +84,6 @@ class Blocks extends Component {
 
   componentDidMount() {
     this.props.resetEditEvent()
-    //   this.props.loadEvents()
-    //   this.props.loadBlocks()
 
   }
 
@@ -149,7 +147,19 @@ class Blocks extends Component {
     else if (block.id >= event.startBlock && block.id<=event.endBlock)
       return this.renderEvent(event)
   }
-
+    renderEventLength(){
+      let blocks
+      if( this.props.currentEvent.eventID ==null ){
+        blocks =this.state.endHighlightedCell-this.state.startHighlightedCell
+      return(
+        <p>{blocks} Blocks = {this.convertMinsToHrsMins( (blocks)*10) } </p>
+      )}else{
+        blocks=this.props.currentEvent.endBlock-this.props.currentEvent.startBlock+1
+        return(
+          <p>{blocks} Blocks  = {this.convertMinsToHrsMins( (blocks)*10) } </p>
+        )
+      }
+    }
 
   render() {
     let blocks=this.props.blocksAll
@@ -221,7 +231,7 @@ class Blocks extends Component {
         >
           <div>
             <h2>adding event</h2>
-            <p>{this.state.endHighlightedCell-this.state.startHighlightedCell} Blocks = {this.convertMinsToHrsMins( (this.state.endHighlightedCell-this.state.startHighlightedCell)*10) } </p>
+            {this.renderEventLength()}
             {!this.props.currentEvent ?
               (
                 <div> Loading event</div>
