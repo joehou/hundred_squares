@@ -121,6 +121,35 @@ class Blocks extends Component {
       </p>
     )
   }
+  renderEventBlock(event,block){
+    if (block.id == event.startBlock && event.endBlock ==event.startBlock)
+      return (
+        <div className="one-cell-event">
+          {this.renderEventSingle(event)}
+        </div>
+       )
+    else if (block.id == event.startBlock && event.endBlock ==event.startBlock+1)
+      return (
+        <div className="two-cell-event">
+          {this.renderEventSingle(event)}
+        </div>
+      )
+    else if (block.id == event.endBlock && event.endBlock ==event.startBlock+1)
+      return (
+        <div className="two-cell-event">
+          {this.renderEventEnd(event)}
+        </div>
+      )
+    else if (block.id == event.startBlock && event.endBlock >event.startBlock+1)
+      return (
+        <div className="multi-cell-event">
+          {this.renderEventStart(event)}
+        </div>
+      )
+    else if (block.id >= event.startBlock && block.id<=event.endBlock)
+      return this.renderEvent(event)
+  }
+
 
   render() {
     let blocks=this.props.blocksAll
@@ -150,32 +179,7 @@ class Blocks extends Component {
                       key={block.id}
                   >
                     {this.props.events.map( event=>{
-                        if (block.id == event.startBlock && event.endBlock ==event.startBlock)
-                          return (
-                            <div className="one-cell-event">
-                              {this.renderEventSingle(event)}
-                            </div>
-                           )
-                        else if (block.id == event.startBlock && event.endBlock ==event.startBlock+1)
-                          return (
-                            <div className="two-cell-event">
-                              {this.renderEventSingle(event)}
-                            </div>
-                          )
-                        else if (block.id == event.endBlock && event.endBlock ==event.startBlock+1)
-                          return (
-                            <div className="two-cell-event">
-                              {this.renderEventEnd(event)}
-                            </div>
-                          )
-                        else if (block.id == event.startBlock && event.endBlock >event.startBlock+1)
-                          return (
-                            <div className="multi-cell-event">
-                              {this.renderEventStart(event)}
-                            </div>
-                          )
-                        else if (block.id >= event.startBlock && block.id<=event.endBlock)
-                          return this.renderEvent(event)
+                        return (this.renderEventBlock(event,block))
                       }
                     )}
                   </td>)
