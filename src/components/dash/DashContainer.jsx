@@ -12,7 +12,6 @@ class DashboardContainer extends Component {
   componentWillMount(){
     this.props.resetEditEvent()
     if (this.props.authentication.isLoggedIn){
-      this.props.loadBlocks()
       this.props.reloadUserEvents(this.props.authentication.username)
     }
   }
@@ -33,15 +32,14 @@ class DashboardContainer extends Component {
     return(
       <div>
         <h2>My dash</h2>
-        { this.props.events && this.props.events.length >0 ? this.renderBlocks(this.props.events, this.props.blocksAll) : <p>Not logged in</p>}
+        { this.props.grid && this.props.grid.events.length >0 ? this.renderBlocks(this.props.grid.events, this.props.blocksAll) : <p>Not logged in</p>}
       </div>
     )
   }
 }
 
 function mapStateToProps({events,blocks,authenticaion}){  return {
-    grid: events.grid,
-    events: events.events,
+    grid:events.grid,
     blocksAll: events.blocks
 }
 }

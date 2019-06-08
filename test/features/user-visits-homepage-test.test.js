@@ -12,7 +12,7 @@ var logInToPage = async (username,password) => {
       await page.click("input[name=userEmail]")
       await page.type("input[name=userEmail]", username)
       await page.click("input[name=userPassword]")
-      await page.type("input[name=userPassword]", password)  
+      await page.type("input[name=userPassword]", password)
       await page.click("button[name=login]")
 }
 
@@ -20,7 +20,7 @@ var logInToPage = async (username,password) => {
 beforeAll(async () =>{
   browser = await puppeteer.launch({
     dumpio: true,
-    headless: false,
+    headless: true,
     slowMo: 80,
     args: ['--no-sandbox','--disable-dev-shm-usage',`--window-size=${width},${height}`]
   },100000)
@@ -44,7 +44,7 @@ describe("user visits homepage", async() =>{
       await page.click("input[name=userEmail]")
       await page.type("input[name=userEmail]", 'JohnDough20@test.com')
       await page.click("input[name=userPassword]")
-      await page.type("input[name=userPassword]", 'Yarpyarp1')  
+      await page.type("input[name=userPassword]", 'Yarpyarp1')
       await page.click("button[name=login]").catch(e => console.log(e))
 
     //await logInToPage("JohnDough20@test.com","Yarpyarp1")

@@ -32,8 +32,16 @@ export function loadUserEvents(user){
 
 }
 
-
 export function loadBlocks(){
+  return(dispatch) =>{
+    return dispatch({
+      type: types.LOAD_BLOCKS_SUCCESS,
+      blocks: getUserBlocks()
+    })
+  }
+}
+
+export function loadStarterBlocks(){
   return(dispatch) =>{
     return dispatch({
       type: types.LOAD_BLOCKS_SUCCESS,

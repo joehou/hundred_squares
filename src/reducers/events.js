@@ -1,5 +1,5 @@
 import * as types from '../actions/types'
-import {getDummyGrid,getInitialBlocks} from "../utils/helpers";
+import {getDummyGrid,getInitialBlocks,getBlocks} from "../utils/helpers";
 
 
 const initialGrid=getDummyGrid()
@@ -19,9 +19,9 @@ export default function reducer( state =initialState,action) {
         blocks: action.blocks
       }
     case types.LOAD_EVENTS_SUCCESS:
-      console.log(`grid in action ${action.grid}`)
       return{
         ...state,
+        blocks: getBlocks(action.grid.events),
         grid: action.grid,
         events: action.grid.events,
       }
@@ -36,10 +36,9 @@ export default function reducer( state =initialState,action) {
         editEvent: {...state.editEvent,startBlock:action.highlightRange.startBlock+1,endBlock:action.highlightRange.endBlock}
       }
     case types.GET_EDIT_EVENT:
-      console.log(action.eventID)
       return {
         ...state,
-        editEvent: state.events.find(event=> event.eventID==action.eventID)
+        editEvent: state.events.find(event=> event._id==action.eventID)
       }
     case types.UPDATE_EDIT_EVENT:
       return {

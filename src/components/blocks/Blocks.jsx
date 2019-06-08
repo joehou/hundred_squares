@@ -60,7 +60,7 @@ class Blocks extends Component {
   }
 
   blockClicked(selectedBlock){
-    let startBlock=this.props.events.reduce(function(prev, curr) {
+    let startBlock=this.props.grid.events.reduce(function(prev, curr) {
       return prev.endBlock > curr.endBlock? prev : curr;
     }).endBlock
     this.setState( _=> ({
@@ -188,7 +188,7 @@ class Blocks extends Component {
                       onMouseOver= {_=> this.blockHover(block)}
                       key={block.id}
                   >
-                    {this.props.events.map( event=>{
+                    {this.props.grid.events.map( event=>{
                         return (this.renderEventBlock(event,block))
                       }
                     )}

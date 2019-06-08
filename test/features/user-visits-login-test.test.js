@@ -8,7 +8,8 @@ const height = 800
 
 beforeAll(async () => {
     browser = await puppeteer.launch({
-          headless: false,
+          headless: true,
+          //dumpio: true,
           slowMo: 80,
           args: [`--window-size=${width},${height}`]
         },100000);
@@ -40,6 +41,7 @@ describe("User visits login page", () => {
     },100000),
     it("can enter credentials and displays welcome message and logout link in header after login", async () =>{
       await logInToPage("JohnDough20@test.com","Yarpyarp1")
+      //await page.waitForSelector(".welcome a")
       await page.waitForNavigation({waitUntil: 'load'})
       const text = await page.$eval('h1', el => el.innerText)
       const welcomeMessage = await page.$eval('.welcome', el=>el.innerText)

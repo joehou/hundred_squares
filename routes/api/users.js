@@ -28,6 +28,8 @@ router.get('/:id', async( req, res, next) =>{
   })
 })
 
+//add event to grid
+
 //get user grid
 gridRouter.get('/', async( req,res,next) => {
   res.status(200)
