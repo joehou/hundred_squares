@@ -9,10 +9,12 @@ class DashboardContainer extends Component {
     super(props)
   }
 
-  componentDidMount(){
+  componentWillMount(){
     this.props.resetEditEvent()
-    console.log(this.props.authentication.username)
-    this.props.reloadUserEvents(this.props.authentication.username)
+    if (this.props.authentication.isLoggedIn){
+      this.props.loadBlocks()
+      this.props.reloadUserEvents(this.props.authentication.username)
+    }
   }
 
   renderBlocks(){
