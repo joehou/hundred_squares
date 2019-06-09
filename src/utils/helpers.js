@@ -78,6 +78,7 @@ export function getDummyGrid(){
   events:[
   {
     eventID:1,
+    _id:1,
     eventName: "Shower with dog",
     eventColor: "#42AB9E",
     eventFontColor: "white",
@@ -86,6 +87,7 @@ export function getDummyGrid(){
   },
   {
     eventID:2,
+    _id:2,
     eventName:"Breakfast",
     eventColor:"lightgray",
     eventFontColor: "white",
@@ -94,6 +96,7 @@ export function getDummyGrid(){
   },
   {
     eventID:3,
+    _id:3,
     eventName:"Study Science",
     eventColor:"#FEF7C1",
     eventFontColor: "darkgray",
