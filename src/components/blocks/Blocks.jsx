@@ -149,7 +149,7 @@ class Blocks extends Component {
   }
     renderEventLength(){
       let blocks
-      if( this.props.currentEvent.eventID ==null ){
+      if( this.props.currentEvent._id ==null ){
         blocks =this.state.endHighlightedCell-this.state.startHighlightedCell
       return(
         <p>{blocks} Blocks = {this.convertMinsToHrsMins( (blocks)*10) } </p>
@@ -204,6 +204,7 @@ class Blocks extends Component {
           contentLabel='Modal'
           isOpen={this.state.eventModalOpen}
           onRequestClose={_=>this.handleCloseModal()}
+          shouldCloseOnEsc={false}
           style={{
                     overlay: {
                     position: 'fixed',

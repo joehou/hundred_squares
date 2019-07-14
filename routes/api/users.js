@@ -1,4 +1,4 @@
-var express = require('express')
+const express = require('express')
 const User = require('../../models/user')
 const Grid = require('../../models/grid')
 
@@ -27,8 +27,6 @@ router.get('/:id', async( req, res, next) =>{
     res.send(user)
   })
 })
-
-//add event to grid
 
 //get user grid
 gridRouter.get('/', async( req,res,next) => {
@@ -71,6 +69,9 @@ gridRouter.get('/:gridId', async( req,res,next) => {
     }
   })
 })
+
+//add event to grid
+
 
 router.use('/:id/grids', gridRouter)
 

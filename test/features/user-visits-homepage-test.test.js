@@ -19,7 +19,7 @@ var logInToPage = async (username,password) => {
 
 beforeAll(async () =>{
   browser = await puppeteer.launch({
-    dumpio: true,
+    dumpio: false,
     headless: true,
     slowMo: 80,
     args: ['--no-sandbox','--disable-dev-shm-usage',`--window-size=${width},${height}`]
