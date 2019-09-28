@@ -3,13 +3,12 @@ const  {buildUserRegistration} = require('../test-utils')
 
 let page
 let browser
-const width = 820
+const width = 620
 const height = 800
 
 beforeAll(async () => {
     browser = await puppeteer.launch({
-          headless: true,
-          //dumpio: true,
+          headless: false,
           slowMo: 80,
           args: [`--window-size=${width},${height}`]
         },100000);
@@ -40,24 +39,22 @@ describe("User visits login page", () => {
       expect (page.url()).toBe("http://localhost:3000/account/login")
     },100000),
     it("can enter credentials and displays welcome message and logout link in header after login", async () =>{
-      await logInToPage("JohnDough20@test.com","Yarpyarp1")
-      //await page.waitForSelector(".welcome a")
+      await logInToPage("tyranthou@gmail.com","Yarpyarp1")
       await page.waitForNavigation({waitUntil: 'load'})
       const text = await page.$eval('h1', el => el.innerText)
       const welcomeMessage = await page.$eval('.welcome', el=>el.innerText)
-      expect(welcomeMessage.toLowerCase()).toContain('')
+      expect(welcomeMessage.toLowerCase()).toContain('christopher')
       expect(welcomeMessage).toContain('Log Out')
-      await page.click(".welcome a")
     },100000),
     it("Will navigate to homepage and display log in link in headeder after logout", async () => {
-      await logInToPage("JohnDough20@test.com","Yarpyarp1")
-      await page.waitForSelector(".welcome a")
-      await page.click(".welcome a")
+      await logInToPage("tyranthou@gmail.com","Yarpyarp1")
+      //await page.waitForSelector(".welcome a")
+      await page.click(".welcome a"),
       page.waitForNavigation({waitUntil: 'load'})
       expect (page.url()).toBe("http://localhost:3000/")
     },100000),
     it("will stay on same page and show error if incorrect login is entered", async () => {
-      await logInToPage("JohnDough20@test.com", "BadBADpassword")
+      await logInToPage("tyranthou@gmail.com", "BadBADpassword")
       await page.waitForSelector('strong')
       const text = await page.$eval('strong', el => el.innerText)
       expect (text).toContain("Error")

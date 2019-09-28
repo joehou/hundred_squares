@@ -4,8 +4,11 @@ const Grid = require('../../models/grid')
 
 var router = express.Router();
 var gridRouter = express.Router({mergeParams: true})
+var eventRouter = express.Router({mergeParams: true})
 
 // attach itemRouter as middle ware
+router.use('/:id/grids', gridRouter)
+gridRouter.use('/:gridId/events',eventRouter)
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -25,6 +28,44 @@ router.get('/:id', async( req, res, next) =>{
       res.send(err)
     }
     res.send(user)
+  })
+})
+
+//add events crud to grid
+eventRouter.get('/', async( req,res,next )=>{
+  User.findOne( {username:req.params.id},'grids').populate({path:'grids', model: Grid}).exec( (err,user) =>{
+  if (err){
+    return next(err)
+  }
+  if (!user ){
+    res.send("user not found")
+  }else if(user.grids.length ==0){
+    res.send("user grids not found")
+  }else{
+      res.status(200)
+      .json(user.grids[0].events)
+    }
+  })
+})
+// post api/users/:id/grids/:grid_id/events/:event_id"
+
+eventRouter.get('/:eventId', async( req,res,next )=>{
+  User.findOne( {username:req.params.id},'grids').populate({path:'grids', model: Grid}).exec( (err,user) =>{
+  if (err){
+    return next(err)
+  }
+  if (!user ){
+    res.send("user not found")
+  }else if(user.grids.length ==0){
+    res.send("user grids not found")
+  }else{
+      var event = user.grids[0].events.find( (e) =>{return e._id== req.params.eventId} )
+      if(!event){
+        res.status(404).send('event not found')
+      }else{
+        res.status(200)
+        .json(event.eventName)
+    }}
   })
 })
 
@@ -70,9 +111,5 @@ gridRouter.get('/:gridId', async( req,res,next) => {
   })
 })
 
-//add event to grid
-
-
-router.use('/:id/grids', gridRouter)
 
 module.exports = router;
