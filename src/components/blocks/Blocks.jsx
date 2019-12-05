@@ -248,7 +248,7 @@ class Blocks extends Component {
                   <input name="eventFontColor" type="text" value={this.props.currentEvent.eventFontColor} />
                   {this.props.currentEvent.startBlock}, {this.props.currentEvent.endBlock}
                   <br />
-                  { (this.props.currentEvent.eventID ==null)?(
+                  { (this.props.currentEvent._id ==null)?(
                       <button type="submit" onClick={event=>{
                         event.preventDefault()
                         this.props.createEvent(this.props.currentEvent)

@@ -1,5 +1,5 @@
 import {getDummyGrid,getInitialBlocks} from "../utils/helpers";
-import {fetchRecentGrid} from "../utils/api"
+import {fetchRecentGrid,postEvent} from "../utils/api"
 import * as types from '../actions/types'
 
 export function loadStarterGrid(){
@@ -92,12 +92,18 @@ export function createEvent(event){
   }
 }
 
-export function updateEvent(event){
+export function updateEvent(newEvent){
   return dispatch=>{
-    dispatch({
-      type: types.UPDATE_EVENT,
-      event
-    })
+    //TODO:  Here we need to add API call so  event is updated in back end as well
+      console.log(newEvent)
+     postEvent()
+//      return updateEvent(newEvent).then(event =>{
+ //       console.log(event)
+  //        dispatch({
+   //         type: types.UPDATE_EVENT,
+    //         event
+     //     })
+    //})
   }
 }
 

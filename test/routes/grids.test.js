@@ -10,14 +10,14 @@ describe("The grids api for users /api/users/:id/grids", () =>{
       expect(res.body.gridName).toBe('Dough Day')
     },10000)
   })
-  // /api/users/id/grids/id/events
+  // /api/users/:user_id/grids/:grid_id/events/:event_id
   describe("post api/users/:id/grids/:grid_id/events/:event_id",() => {
     test("updates event and returns the updated event", async () => {
-      const rest = await request("http://localhost:3000")
-        .get('/api/users/JohnDough20/:grid_id/events/5c25552a6936d241c2f1bbbb')
+      const res = await request("http://localhost:3000")
+        .put('/api/users/JohnDough20/grids/5c25552a6936d241c2f1bbba/events/5c25552a6936d241c2f1bbbb')
         .expect(200)
         .expect('Content-Type',/json/)
-      expect(res.body.eventName).toBe('My Starter Grid')
+      expect(res.body).toBe('My Starter Grid')
     },10000)
   })
 })
