@@ -9,20 +9,19 @@ export function fetchRecentGrid(username){
   return fetch(`${api}/users/${username}/grids/recent`, {headers}).then(res => res.json()).then( grid=> grid)
 }
 
-export function postEvent(event){
-  //make api call to update and return updated event
-  //TODO: what is the URL and what should the body be
-  fetch(`${api}/users/JohnDough20/grids/5c25552a6936d241c2f1bbba/events/${event}`, {
+export function postEvent(event,username,grid){
+  return fetch(`${api}/users/${username}/grids/${grid}/events/${event._id}`, {
 	method: 'put',
-		headers: {
-	"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+	headers: {
+      'Content-Type': 'application/json'
 	},
-	body: 'foo=bar&lorem=ipsum'
+	body: JSON.stringify(event)
    })
-	.then(json)
+	.then(res=>{
+		res.json()
+	} )
 	.then(function (data) {
-	  console.log('Request succeeded with JSON response', data);
+		data
 	}).catch(function (error) {
-	  console.log('Request failed', error);
     })
 }

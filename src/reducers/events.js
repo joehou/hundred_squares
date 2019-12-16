@@ -38,7 +38,7 @@ export default function reducer( state =initialState,action) {
     case types.GET_EDIT_EVENT:
       return {
         ...state,
-        editEvent: state.events.find(event=> event._id==action.eventID)
+        editEvent: state.grid.events.find(event=> event._id==action.eventID)
       }
     case types.UPDATE_EDIT_EVENT:
       return {
@@ -64,13 +64,13 @@ export default function reducer( state =initialState,action) {
     case types.UPDATE_EVENT:
       return {
         ...state,
-        events: state.events.map(event=>{
-          if (event.eventID===action.event.eventID){
-            return action.event
+        grid: {...state.grid,events: state.grid.events.map(event=>{
+          if (event._id===action.newEvent._id){
+            return action.newEvent
           }else{
             return event
           }
-        }),
+        })},
         editEvent: blankEvent
       }
     default:

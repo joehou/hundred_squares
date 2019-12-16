@@ -92,18 +92,14 @@ export function createEvent(event){
   }
 }
 
-export function updateEvent(newEvent){
+export function updateEvent(newEvent,username,grid){
   return dispatch=>{
-    //TODO:  Here we need to add API call so  event is updated in back end as well
-      console.log(newEvent)
-     postEvent()
-//      return updateEvent(newEvent).then(event =>{
- //       console.log(event)
-  //        dispatch({
-   //         type: types.UPDATE_EVENT,
-    //         event
-     //     })
-    //})
+    return postEvent(newEvent,username,grid).then(event =>{
+        dispatch({
+          type: types.UPDATE_EVENT,
+          newEvent
+        })
+    })
   }
 }
 

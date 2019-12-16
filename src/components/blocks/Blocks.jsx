@@ -259,7 +259,7 @@ class Blocks extends Component {
                     ):(
                       <button type="submit" onClick={event=>{
                         event.preventDefault()
-                        this.props.updateEvent(this.props.currentEvent)
+                        this.props.updateEvent(this.props.currentEvent, this.props.authentication.username,this.props.grid._id)
                         this.handleCloseModal()
                       }}>
                         Update
@@ -284,11 +284,10 @@ class Blocks extends Component {
   }
 }
 
-function mapStateToProps({events,blocks}){
+function mapStateToProps({authentication, events,blocks}){
   return {
-    //    events: events.events,
-    currentEvent: events.editEvent,
-    //blocksAll: events.blocks
+    authentication: authentication,
+    currentEvent: events.editEvent
   }
 }
 

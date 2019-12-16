@@ -50,10 +50,8 @@ eventRouter.get('/', async( req,res,next )=>{
 
 // post api/users/:id/grids/:grid_id/events/:event_id"
 eventRouter.put('/:eventId', async( req,res,next )=>{
-  User.findOne( {username:req.params.id},'grids').populate({path:'grids', model: Grid}).exec( (err,user) =>{
-  console.log('in post')
+  User.findOne( {username:req.params.id},'grids').populate({path:'grids', model: Grid}).exec( async(err,user) =>{
   if (err){
-    console.log ('whats this')
     return next(err)
   }
   if (!user ){
@@ -63,15 +61,16 @@ eventRouter.put('/:eventId', async( req,res,next )=>{
   }else{
       var event = user.grids[0].events.find( (e) =>{return e._id== req.params.eventId} )
       if(!event){
-        console.log('nontfound')
         res.status(404).json('event not found')
       }else{
-        //create event.
-        console.log(req.body)
-        //save event to grid?
-        //TODO: get request and do the damn thing(save)
+        event.eventName= req.body.eventName
+        event.endBlock= req.body.endBlock
+        event.eventColor= req.body.eventColor
+        event.eventFontColor= req.body.eventFontColor
+        event.startBlock= req.body.startBlock
+        await user.grids[0].save()
         res.status(200)
-        .json(event.eventName)
+        .json(event)
     }}
   })
 })
