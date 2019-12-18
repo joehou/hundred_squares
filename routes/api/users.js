@@ -48,7 +48,25 @@ eventRouter.get('/', async( req,res,next )=>{
   })
 })
 
-// post api/users/:id/grids/:grid_id/events/:event_id"
+// post api/users/:id/grids/:grid_id/events/"
+eventRouter.post('/', async( req,res,next )=>{
+  User.findOne( {username:req.params.id},'grids').populate({path:'grids', model: Grid}).exec( async(err,user) =>{
+  if (err){
+    return next(err)
+  }
+  if (!user ){
+    res.send("user not found")
+  }else if(user.grids.length ==0){
+    res.send("user grids not found")
+  }else{
+        var event = user.grids[0].events.create(req.body)
+        await user.grids[0].push(event)
+        await user.grids[0].save()
+        res.status(200).json(event)
+    }
+  })
+})
+// put api/users/:id/grids/:grid_id/events/:event_id"
 eventRouter.put('/:eventId', async( req,res,next )=>{
   User.findOne( {username:req.params.id},'grids').populate({path:'grids', model: Grid}).exec( async(err,user) =>{
   if (err){
