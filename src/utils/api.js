@@ -9,6 +9,23 @@ export function fetchRecentGrid(username){
   return fetch(`${api}/users/${username}/grids/recent`, {headers}).then(res => res.json()).then( grid=> grid)
 }
 
+export function postNewEvent(event,username,grid){
+  return fetch(`${api}/users/${username}/grids/${grid}/events`, {
+	method: 'post',
+	headers: {
+      'Content-Type': 'application/json'
+	},
+	body: JSON.stringify(event)
+   })
+	.then(res=>{
+		res.json()
+	} )
+	.then(function (data) {
+		data
+	}).catch(function (error) {
+    })
+}
+
 export function postEvent(event,username,grid){
   return fetch(`${api}/users/${username}/grids/${grid}/events/${event._id}`, {
 	method: 'put',

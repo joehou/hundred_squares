@@ -1,5 +1,5 @@
 import {getDummyGrid,getInitialBlocks} from "../utils/helpers";
-import {fetchRecentGrid,postEvent} from "../utils/api"
+import {fetchRecentGrid,postEvent,postNewEvent} from "../utils/api"
 import * as types from '../actions/types'
 
 export function loadStarterGrid(){
@@ -83,12 +83,14 @@ export function updateEditEvent(update){
   }
 }
 
-export function createEvent(event){
+export function createEvent(newEvent,username,grid){
   return dispatch=>{
-    dispatch({
-      type: types.CREATE_EDIT_EVENT,
-      event
-    })
+      return postNewEvent(newEvent,username,grid).then(event =>{
+        dispatch({
+          type: types.CREATE_EDIT_EVENT,
+          newEvent
+        })
+      })
   }
 }
 

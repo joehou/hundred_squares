@@ -251,7 +251,7 @@ class Blocks extends Component {
                   { (this.props.currentEvent._id ==null)?(
                       <button type="submit" onClick={event=>{
                         event.preventDefault()
-                        this.props.createEvent(this.props.currentEvent)
+                        this.props.createEvent(this.props.currentEvent, this.props.authentication.username,this.props.grid._id)
                         this.handleCloseModal()
                       }}>
                         Create

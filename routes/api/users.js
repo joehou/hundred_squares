@@ -60,11 +60,11 @@ eventRouter.post('/', async( req,res,next )=>{
     res.send("user grids not found")
   }else{
         var event = user.grids[0].events.create(req.body)
-        await user.grids[0].push(event)
+        await user.grids[0].events.push(event)
         await user.grids[0].save()
         res.status(200).json(event)
-    }
-  })
+        }
+        })
 })
 // put api/users/:id/grids/:grid_id/events/:event_id"
 eventRouter.put('/:eventId', async( req,res,next )=>{

@@ -49,11 +49,10 @@ export default function reducer( state =initialState,action) {
       console.log(state.blocks)
       return {
         ...state,
-        events: [...state.events,action.event],
+        grid: {...state.grid,events:[...state.grid.events,action.newEvent]},
         blocks: state.blocks.map(block=>{
-          console.log("Checkin in reducers")
-          if (block.id ==action.event.startBlock){
-            return {...block, eventID:99}
+          if (block.id ==action.newEvent.startBlock){
+            return {...block, eventID:action.newEvent._id}
           }else{
             return block
           }
