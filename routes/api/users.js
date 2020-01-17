@@ -93,6 +93,22 @@ eventRouter.put('/:eventId', async( req,res,next )=>{
   })
 })
 
+//delete event from user grid
+eventRouter.delete('/:eventId',async( req,res,next )=>{
+User.findOne({username:req.params.id},'grids').populate({path:'grids', model: Grid}).exec(  async(err,user)=>{
+        if(err){
+        return next(err)
+        }
+    if (!user || user.grids.length === 0){
+        res.send("user or grid not found")
+        }else{
+            var event = user.grids[0].events.find( (e) =>{return e._id== req.params.eventId} )
+            await event.remove()
+            await user.grids[0].save()
+            res.status(200).json(event)
+        }
+      })
+})
 //get user grid
 gridRouter.get('/', async( req,res,next) => {
   res.status(200)
