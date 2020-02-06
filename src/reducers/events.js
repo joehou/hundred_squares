@@ -1,5 +1,5 @@
 import * as types from '../actions/types'
-import {getDummyGrid,getInitialBlocks,getBlocks} from "../utils/helpers";
+import {getDummyGrid,getInitialBlocks,getBlocks,closeGaps} from "../utils/helpers";
 
 
 const initialGrid=getDummyGrid()
@@ -46,13 +46,14 @@ export default function reducer( state =initialState,action) {
         editEvent: {...state.editEvent,[action.update.propertyName]: action.update.value}
       }
     case types.CREATE_EDIT_EVENT:
-      console.log(state.blocks)
+      let id = action.event ? action.event._id : action.newEvent._id
+      let eventToAdd = action.event? action.event : action.newEvent
       return {
         ...state,
-        grid: {...state.grid,events:[...state.grid.events,action.newEvent]},
+        grid: {...state.grid,events:[...state.grid.events,eventToAdd]},
         blocks: state.blocks.map(block=>{
-          if (block.id ==action.newEvent.startBlock){
-            return {...block, eventID:action.newEvent._id}
+          if (block.id >=eventToAdd.startBlock && block.id<= eventToAdd.endBlock){
+            return {...block, eventID:id,_id:id}
           }else{
             return block
           }
@@ -72,11 +73,21 @@ export default function reducer( state =initialState,action) {
         })},
         editEvent: blankEvent
       }
+    case types.DELETE_EDIT_EVENT:
+          return {
+            ...state,
+              grid: {...state.grid,
+                events: closeGaps(state.grid.events.filter(event=>{
+                    return event._id !== action.editEvent._id
+                  })
+                )},
+            editEvent: blankEvent,
+            blocks: getBlocks(state.grid.events),
+          }
     default:
       return state
   }
 }
-
 
 const initialState={
   events:{},

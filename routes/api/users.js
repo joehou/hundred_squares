@@ -105,6 +105,9 @@ User.findOne({username:req.params.id},'grids').populate({path:'grids', model: Gr
             var event = user.grids[0].events.find( (e) =>{return e._id== req.params.eventId} )
             await event.remove()
             await user.grids[0].save()
+            var eventslist = user.grids[0].events
+            eventslist = closeGaps(eventslist)
+            await user.grids[0].save()
             res.status(200).json(event)
         }
       })
@@ -151,5 +154,13 @@ gridRouter.get('/:gridId', async( req,res,next) => {
   })
 })
 
+const closeGaps = (eventsArray)=>{
+    var gapSize= eventsArray[0].startBlock
+    return eventsArray.map( (event, i, arr) => {
+        if ( gapSize ===0 &&  i>0 && ( (event.startBlock-arr[i-1].endBlock) >= 1 )  ) gapSize=(event.startBlock-arr[i-1].endBlock) - 1
+        if (gapSize>0) event= {...event, startBlock: event.startBlock -= gapSize ,endBlock: event.endBlock -= gapSize}
+        return event
+    })
+}
 
 module.exports = router;

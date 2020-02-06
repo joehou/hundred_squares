@@ -11,18 +11,15 @@ export function fetchRecentGrid(username){
 
 export function postNewEvent(event,username,grid){
   return fetch(`${api}/users/${username}/grids/${grid}/events`, {
-	method: 'post',
-	headers: {
-      'Content-Type': 'application/json'
-	},
-	body: JSON.stringify(event)
+    method: 'post',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(event)
    })
-	.then(res=>{
-		res.json()
-	} )
-	.then(function (data) {
-		data
-	}).catch(function (error) {
+	.then(res=>res.json())
+	.then( event=>event)
+	.catch(function (error) {
     })
 }
 
@@ -41,4 +38,21 @@ export function postEvent(event,username,grid){
 		data
 	}).catch(function (error) {
     })
+}
+
+export function deleteEditEvent(event,username,grid){
+  return fetch(`${api}/users/${username}/grids/${grid}/events/${event._id}`, {
+    method: 'delete',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(event)
+     })
+    .then(res=>{
+      res.json()
+    } )
+    .then(function (data) {
+      data
+    }).catch(function (error) {
+  })
 }

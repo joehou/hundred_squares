@@ -36,6 +36,15 @@ function createBlock (number){
   }
 }
 
+// loops through events...and delete gaps?
+export const closeGaps = (eventsArray)=>{
+    var gapSize= eventsArray[0].startBlock
+    return eventsArray.map( (event, i, arr) => {
+        if ( gapSize ===0 &&  i>0 && ( (event.startBlock-arr[i-1].endBlock) >= 1 )  ) gapSize=(event.startBlock-arr[i-1].endBlock) - 1
+        if (gapSize>0) event= {...event, startBlock: event.startBlock -= gapSize ,endBlock: event.endBlock -= gapSize}
+        return event
+    })
+}
 
 export function getBlocks(events){
   const initialBlocks=[]

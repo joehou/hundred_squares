@@ -149,7 +149,7 @@ class Blocks extends Component {
   }
     renderEventLength(){
       let blocks
-      if( this.props.currentEvent._id ==null ){
+      if( this.props.currentEvent && this.props.currentEvent._id ==null ){
         blocks =this.state.endHighlightedCell-this.state.startHighlightedCell
       return(
         <p>{blocks} Blocks = {this.convertMinsToHrsMins( (blocks)*10) } </p>
@@ -265,6 +265,12 @@ class Blocks extends Component {
                         Update
                       </button>
                   )}
+                  <button type="submit" onClick = {(event)=>{
+                        event.preventDefault()
+                        this.props.deleteEvent(this.props.currentEvent, this.props.authentication.username,this.props.grid._id)
+                        this.handleCloseModal()
+                  }}>
+                  Delete</button>
                   <button type="cancel" onClick={event =>{
                     this.props.resetEditEvent()
                     this.handleCloseModal()

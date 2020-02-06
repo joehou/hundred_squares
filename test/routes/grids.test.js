@@ -1,7 +1,7 @@
 const request = require('supertest')
 
 let result=''
-
+let secondResult = ''
 describe("The grids api for users /api/users/:id/grids", () =>{
   describe("get api/users/:id/grids/recent", () => {
     test("returns last edited grid", async () => {
@@ -48,6 +48,38 @@ describe("The grids api for users /api/users/:id/grids", () =>{
       .send()
       .expect(200)
       expect(res.body._id).toBe(result)
+    })
+  })
+  // it creates two new elements and deletes it
+  describe("delete api/users/:id/grids/:grid_id/events/:events_id",()=>{
+    test ("deletes an event and shifts squares after it down", async () =>{
+      const newEvent= {"eventName":"test event","eventColor":"lightPink","eventFontColor":"Black","startBlock":8,"endBlock":15}
+      const firstRes = await request("http://localhost:3000")
+        .post('/api/users/JohnDough20/grids/5c25552a6936d241c2f1bbba/events/')
+        .send(newEvent)
+      result=firstRes.body._id
+
+      const secondNewEvent= {"eventName":"test event","eventColor":"lightPink","eventFontColor":"Black","startBlock":16,"endBlock":18}
+      const secondRes = await request("http://localhost:3000")
+        .post('/api/users/JohnDough20/grids/5c25552a6936d241c2f1bbba/events/')
+        .send(secondNewEvent)
+      secondResult=secondRes.body._id
+
+      const deleteRes = await request("http://localhost:3000")
+      .delete(`/api/users/JohnDough20/grids/5c25552a6936d241c2f1bbba/events/${result}`)
+      .send()
+      .expect(200)
+
+      const finalRes = await request('http://localhost:3000')
+        .get('/api/users/JohnDough20/grids/5c25552a6936d241c2f1bbba')
+        .expect(200)
+        .expect('Content-Type', /json/)
+      expect(finalRes.body.events[finalRes.body.events.length-1].startBlock).toBe(8)
+
+      const lastDeleteRes = await request("http://localhost:3000")
+      .delete(`/api/users/JohnDough20/grids/5c25552a6936d241c2f1bbba/events/${secondResult}`)
+      .send()
+      .expect(200)
     })
   })
 

@@ -49,6 +49,8 @@ app.use(expressSession(sessionValues))
 app.use(passport.initialize())
 app.use(passport.session())
 
+console.log(`NODE_ENV:${process.env.NODE_ENV}`)
+
 // Webpack Server
 if (process.env.NODE_ENV !== 'production') {
   const webpackCompiler = webpack(webpackConfig);
